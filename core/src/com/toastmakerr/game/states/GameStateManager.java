@@ -1,4 +1,4 @@
-package com.toastmakerr.game.States;
+package com.toastmakerr.game.states;
 
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
