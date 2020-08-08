@@ -2,7 +2,6 @@ package com.toastmakerr.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.toastmakerr.game.states.GameStateManager;
@@ -15,22 +14,13 @@ public class DesertMarauderMain extends ApplicationAdapter {
 
 	private GameStateManager manager;
 	private SpriteBatch batch;
-	private AssetManager assetManager;
+	private AssetsManager assetManager;
 	
 	@Override
 	public void create () {
 		manager = new GameStateManager();
 		batch = new SpriteBatch();
-		assetManager = new AssetManager();
-		assetManager.load(Assets.DESERT_BG);
-		assetManager.load(Assets.DESERT_BG_1);
-		assetManager.load(Assets.DESERT_BG_2);
-		assetManager.load(Assets.DESERT_BG_3);
-		assetManager.load(Assets.DESERT_BG_4);
-		assetManager.load(Assets.DESERT_BG_5);
-		assetManager.load(Assets.TITLE);
-		assetManager.load(Assets.PLAYER_IDLE);
-		assetManager.finishLoading();
+		assetManager = new AssetsManager();
 		manager.push(new MenuState(manager, assetManager));
 	}
 

@@ -5,6 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.toastmakerr.game.Assets;
+import com.toastmakerr.game.AssetsManager;
 import com.toastmakerr.game.DesertMarauderMain;
 
 public class MenuState extends State{
@@ -14,11 +15,11 @@ public class MenuState extends State{
     private float destinationX;
     private float lerp;
 
-    public MenuState(GameStateManager manager, AssetManager assetManager) {
-        super(manager, assetManager);
-        background = assetManager.get(Assets.DESERT_BG);
-        background2 = assetManager.get(Assets.DESERT_BG);
-        title = assetManager.get(Assets.TITLE);
+    public MenuState(GameStateManager manager, AssetsManager assetManager) {
+        super(manager,assetManager);
+        background = assetManager.am.get(Assets.DESERT_BG);
+        background2 = assetManager.am.get(Assets.DESERT_BG);
+        title = assetManager.am.get(Assets.TITLE);
         camera.setToOrtho(false,  DesertMarauderMain.WIDTH, DesertMarauderMain.HEIGHT);
         destinationX = 3 * DesertMarauderMain.WIDTH / 2;
         lerp = 0.1f;
@@ -34,7 +35,6 @@ public class MenuState extends State{
 
     @Override
     public void update(float delta) {
-        System.out.println(camera.position.x);
         if(cameraPosX >= destinationX){
             cameraPosX = DesertMarauderMain.WIDTH / 2;
         }

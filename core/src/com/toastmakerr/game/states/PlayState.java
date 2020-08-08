@@ -1,28 +1,35 @@
 package com.toastmakerr.game.states;
 
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.toastmakerr.game.Assets;
+import com.toastmakerr.game.AssetsManager;
 import com.toastmakerr.game.DesertMarauderMain;
+import com.toastmakerr.game.animations.PlayerAnimation;
+import com.toastmakerr.game.controllers.Player;
 
 public class PlayState extends State{
     private Texture BG1, BG2, BG3, BG4, BG5;
     private World world;
     private static final float STEP_TIME = 1f/60f;
     private float accumulator;
+    private PlayerAnimation playerAnimation;
+    private Player player;
 
-    public PlayState(GameStateManager manager, AssetManager assetManager) {
+    public PlayState(GameStateManager manager, AssetsManager assetManager) {
         super(manager, assetManager);
         world = new World(new Vector2(0,-9.8f), true);
         accumulator = 0;
-        BG1 = assetManager.get(Assets.DESERT_BG_1);
-        BG2 = assetManager.get(Assets.DESERT_BG_2);
-        BG3 = assetManager.get(Assets.DESERT_BG_3);
-        BG4 = assetManager.get(Assets.DESERT_BG_4);
-        BG5 = assetManager.get(Assets.DESERT_BG_5);
+        playerAnimation = new PlayerAnimation(assetManager);
+        player = new Player(assetManager, world);
+        BG1 = assetManager.am.get(Assets.DESERT_BG_1);
+        BG2 = assetManager.am.get(Assets.DESERT_BG_2);
+        BG3 = assetManager.am.get(Assets.DESERT_BG_3);
+        BG4 = assetManager.am.get(Assets.DESERT_BG_4);
+        BG5 = assetManager.am.get(Assets.DESERT_BG_5);
+
         camera.setToOrtho(false,  DesertMarauderMain.WIDTH, DesertMarauderMain.HEIGHT);
     }
 
@@ -34,6 +41,8 @@ public class PlayState extends State{
     @Override
     public void update(float delta) {
         accumulator += Math.min(delta, 0.25f);
+        player.inputHandler();
+        playerAnimation.setAnimation();
     }
 
     @Override
@@ -46,6 +55,7 @@ public class PlayState extends State{
         batch.draw(BG3,0,0, DesertMarauderMain.WIDTH,DesertMarauderMain.HEIGHT);
         batch.draw(BG4,0,0, DesertMarauderMain.WIDTH,DesertMarauderMain.HEIGHT);
         batch.draw(BG5,0,0, DesertMarauderMain.WIDTH,DesertMarauderMain.HEIGHT);
+        playerAnimation.draw(batch);
         batch.end();
         stepWorld();
     }
