@@ -1,11 +1,11 @@
 package com.toastmakerr.game.animations;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.toastmakerr.game.Assets;
 import com.toastmakerr.game.AssetsManager;
 
@@ -22,7 +22,7 @@ public class PlayerAnimation {
     private static float stateTime;
     private static boolean flip;
     private static float frameDuration;
-
+    private static Vector2 animationPos;
 
     public PlayerAnimation(AssetsManager assetsManager){
         this.assetManager = assetsManager;
@@ -30,6 +30,7 @@ public class PlayerAnimation {
         previousAction = null;
         action = PlayerAction.IDLE;
         frameDuration = 0.25f;
+        setPos(new Vector2(50,65));
         setAnimation();
     }
 
@@ -39,7 +40,7 @@ public class PlayerAnimation {
             stateTime -= animation.getAnimationDuration();
         }
         currentFrame = animation.getKeyFrame(stateTime,true);
-        batch.draw(currentFrame, 50, 65, 90,65,250, 250, (flip ? -1 : 1) ,1,0);
+        batch.draw(currentFrame, animationPos.x, animationPos.y, 90,65,250, 250, (flip ? -1 : 1) ,1,0);
     }
 
     public void flipSprite(boolean bool){
@@ -52,6 +53,10 @@ public class PlayerAnimation {
 
     public float getFrameDuration(){
         return frameDuration;
+    }
+
+    public Vector2 getPos(){
+        return animationPos;
     }
 
     public void newAnimation(Texture spriteSheet, int row, int col){
@@ -105,6 +110,10 @@ public class PlayerAnimation {
 
     public void setFrameDuration(float duration){
         frameDuration = duration;
+    }
+
+    public void setPos(Vector2 pos){
+        animationPos = pos;
     }
 
 }

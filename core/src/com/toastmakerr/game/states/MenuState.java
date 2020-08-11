@@ -1,7 +1,6 @@
 package com.toastmakerr.game.states;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.toastmakerr.game.Assets;
@@ -20,7 +19,7 @@ public class MenuState extends State{
         background = assetManager.am.get(Assets.DESERT_BG);
         background2 = assetManager.am.get(Assets.DESERT_BG);
         title = assetManager.am.get(Assets.TITLE);
-        camera.setToOrtho(false,  DesertMarauderMain.WIDTH, DesertMarauderMain.HEIGHT);
+        camera.setToOrtho(false,  DesertMarauderMain.WIDTH / 40, DesertMarauderMain.HEIGHT / 40);
         destinationX = 3 * DesertMarauderMain.WIDTH / 2;
         lerp = 0.1f;
     }

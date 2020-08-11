@@ -7,30 +7,22 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class DynamicGameObject extends BodyDef{
     private Body body;
-    private static Vector2 position;
-    private static Vector2 velocity;
 
-    public DynamicGameObject(World world, Vector2 pos, Vector2 vel){
-        position = pos;
-        velocity = vel;
+    public DynamicGameObject(World world, Vector2 pos){
         this.type = BodyType.DynamicBody;
-        this.position.set(position);
+        this.position.set(pos);
         body = world.createBody(this);
     }
 
     public Vector2 getPosition(){
-        return position;
+        return body.getPosition();
     }
 
     public Vector2 getVelocity(){
-        return velocity;
+        return body.getLinearVelocity();
     }
 
-    public void setPosition(Vector2 newPos){
-        position = newPos;
-    }
-
-    public void setVelocity(Vector2 newVel){
-        velocity = newVel;
+    public void moveDynamicObj(Vector2 vel){
+        body.setLinearVelocity(vel);
     }
 }

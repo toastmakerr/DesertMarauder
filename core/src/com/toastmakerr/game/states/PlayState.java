@@ -9,6 +9,7 @@ import com.toastmakerr.game.AssetsManager;
 import com.toastmakerr.game.DesertMarauderMain;
 import com.toastmakerr.game.animations.PlayerAnimation;
 import com.toastmakerr.game.controllers.Player;
+import com.toastmakerr.game.entities.GroundObject;
 
 public class PlayState extends State{
     private Texture BG1, BG2, BG3, BG4, BG5;
@@ -17,6 +18,7 @@ public class PlayState extends State{
     private float accumulator;
     private PlayerAnimation playerAnimation;
     private Player player;
+    private GroundObject ground;
 
     public PlayState(GameStateManager manager, AssetsManager assetManager) {
         super(manager, assetManager);
@@ -24,6 +26,7 @@ public class PlayState extends State{
         accumulator = 0;
         playerAnimation = new PlayerAnimation(assetManager);
         player = new Player(assetManager, world);
+        ground = new GroundObject(world, camera);
         BG1 = assetManager.am.get(Assets.DESERT_BG_1);
         BG2 = assetManager.am.get(Assets.DESERT_BG_2);
         BG3 = assetManager.am.get(Assets.DESERT_BG_3);
@@ -43,6 +46,7 @@ public class PlayState extends State{
         accumulator += Math.min(delta, 0.25f);
         player.inputHandler();
         playerAnimation.setAnimation();
+        player.update();
     }
 
     @Override
