@@ -31,7 +31,7 @@ public class Player {
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
             playerAnimation.setFrameDuration(0.08f);
             playerAnimation.setAction(PlayerAction.JUMP);
-            player.moveDynamicObj(new Vector2(0,100f));
+            player.moveDynamicObj(new Vector2(0,10f));
             if(Gdx.input.isKeyPressed(Input.Keys.D)){
                 playerAnimation.flipSprite(false);
             }
@@ -42,7 +42,7 @@ public class Player {
         else if(Gdx.input.isKeyPressed(Input.Keys.W)){
             playerAnimation.setFrameDuration(0.07f);
             playerAnimation.setAction(PlayerAction.JUMP);
-            player.moveDynamicObj(new Vector2(0,100f));
+            player.moveDynamicObj(new Vector2(0,10f));
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.S)){
         }
@@ -50,25 +50,25 @@ public class Player {
             playerAnimation.setFrameDuration(0.05f);
             playerAnimation.flipSprite(true);
             playerAnimation.setAction(PlayerAction.RUN);
-            player.moveDynamicObj(new Vector2(-100f,0));
+            player.moveDynamicObj(new Vector2(-10f,0));
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.A)){
             playerAnimation.setFrameDuration(0.07f);
             playerAnimation.flipSprite(true);
             playerAnimation.setAction(PlayerAction.WALK);
-            player.moveDynamicObj(new Vector2(-75f,0));
+            player.moveDynamicObj(new Vector2(-5f,0));
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.D) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
             playerAnimation.setFrameDuration(0.05f);
             playerAnimation.flipSprite(false);
             playerAnimation.setAction(PlayerAction.RUN);
-            player.moveDynamicObj(new Vector2(100f,0));
+            player.moveDynamicObj(new Vector2(10f,0));
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.D)){
             playerAnimation.setFrameDuration(0.07f);
             playerAnimation.flipSprite(false);
             playerAnimation.setAction(PlayerAction.WALK);
-            player.moveDynamicObj(new Vector2(75f,0));
+            player.moveDynamicObj(new Vector2(5f,0));
         }
     }
 

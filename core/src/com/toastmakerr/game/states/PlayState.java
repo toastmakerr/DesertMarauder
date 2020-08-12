@@ -22,18 +22,16 @@ public class PlayState extends State{
 
     public PlayState(GameStateManager manager, AssetsManager assetManager) {
         super(manager, assetManager);
+        camera.setToOrtho(false,  DesertMarauderMain.WIDTH / 40, DesertMarauderMain.HEIGHT / 40);
         world = new World(new Vector2(0,-9.8f), true);
         accumulator = 0;
         playerAnimation = new PlayerAnimation(assetManager);
         player = new Player(assetManager, world);
-        ground = new GroundObject(world, camera);
         BG1 = assetManager.am.get(Assets.DESERT_BG_1);
         BG2 = assetManager.am.get(Assets.DESERT_BG_2);
         BG3 = assetManager.am.get(Assets.DESERT_BG_3);
         BG4 = assetManager.am.get(Assets.DESERT_BG_4);
         BG5 = assetManager.am.get(Assets.DESERT_BG_5);
-
-        camera.setToOrtho(false,  DesertMarauderMain.WIDTH, DesertMarauderMain.HEIGHT);
     }
 
     @Override
@@ -54,11 +52,11 @@ public class PlayState extends State{
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        batch.draw(BG1,0,0, DesertMarauderMain.WIDTH,DesertMarauderMain.HEIGHT);
-        batch.draw(BG2,0,0, DesertMarauderMain.WIDTH,DesertMarauderMain.HEIGHT);
-        batch.draw(BG3,0,0, DesertMarauderMain.WIDTH,DesertMarauderMain.HEIGHT);
-        batch.draw(BG4,0,0, DesertMarauderMain.WIDTH,DesertMarauderMain.HEIGHT);
-        batch.draw(BG5,0,0, DesertMarauderMain.WIDTH,DesertMarauderMain.HEIGHT);
+        batch.draw(BG1,0,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
+        batch.draw(BG2,0,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
+        batch.draw(BG3,0,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
+        batch.draw(BG4,0,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
+        batch.draw(BG5,0,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
         playerAnimation.draw(batch);
         batch.end();
         stepWorld();

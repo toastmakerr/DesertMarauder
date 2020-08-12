@@ -9,8 +9,8 @@ import com.toastmakerr.game.DesertMarauderMain;
 
 public class MenuState extends State{
     private Texture background, background2, title;
-    private final static float SCROLLING_SPEED = 288;
-    private float cameraPosX = DesertMarauderMain.WIDTH / 2;
+    private final static float SCROLLING_SPEED = 5;
+    private float cameraPosX = DesertMarauderMain.WIDTH / 80;
     private float destinationX;
     private float lerp;
 
@@ -20,7 +20,7 @@ public class MenuState extends State{
         background2 = assetManager.am.get(Assets.DESERT_BG);
         title = assetManager.am.get(Assets.TITLE);
         camera.setToOrtho(false,  DesertMarauderMain.WIDTH / 40, DesertMarauderMain.HEIGHT / 40);
-        destinationX = 3 * DesertMarauderMain.WIDTH / 2;
+        destinationX = 3 * DesertMarauderMain.WIDTH / 80;
         lerp = 0.1f;
     }
 
@@ -35,7 +35,7 @@ public class MenuState extends State{
     @Override
     public void update(float delta) {
         if(cameraPosX >= destinationX){
-            cameraPosX = DesertMarauderMain.WIDTH / 2;
+            cameraPosX = DesertMarauderMain.WIDTH / 80;
         }
         cameraPosX += SCROLLING_SPEED * lerp * delta;
         camera.position.x = cameraPosX;
@@ -47,9 +47,9 @@ public class MenuState extends State{
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();;
-        batch.draw(background,0,0,DesertMarauderMain.WIDTH,DesertMarauderMain.HEIGHT);
-        batch.draw(background2,DesertMarauderMain.WIDTH,0,DesertMarauderMain.WIDTH,DesertMarauderMain.HEIGHT);
-        batch.draw(title,cameraPosX-DesertMarauderMain.WIDTH / 2,0);
+        batch.draw(background,0,0,DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT/ 40);
+        batch.draw(background2,DesertMarauderMain.WIDTH / 40,0,DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
+        batch.draw(title,cameraPosX-DesertMarauderMain.WIDTH / 80,0,DesertMarauderMain.WIDTH / 40, DesertMarauderMain.HEIGHT / 40);
         batch.end();
     }
 

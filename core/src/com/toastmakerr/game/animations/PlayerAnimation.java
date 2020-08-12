@@ -30,7 +30,7 @@ public class PlayerAnimation {
         previousAction = null;
         action = PlayerAction.IDLE;
         frameDuration = 0.25f;
-        setPos(new Vector2(50,65));
+        setPos(new Vector2(2,2));
         setAnimation();
     }
 
@@ -40,7 +40,7 @@ public class PlayerAnimation {
             stateTime -= animation.getAnimationDuration();
         }
         currentFrame = animation.getKeyFrame(stateTime,true);
-        batch.draw(currentFrame, animationPos.x, animationPos.y, 90,65,250, 250, (flip ? -1 : 1) ,1,0);
+        batch.draw(currentFrame, animationPos.x, animationPos.y, 3,2,7, 7, (flip ? -1 : 1) ,1,0);
     }
 
     public void flipSprite(boolean bool){

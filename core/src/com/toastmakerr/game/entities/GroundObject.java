@@ -10,7 +10,7 @@ public class GroundObject {
     public GroundObject(World world, OrthographicCamera camera){
         groundObj = new StaticGameObject(world);
         groundBox = new PolygonShape();
-        groundBox.setAsBox(camera.viewportWidth,30f);
+        groundBox.setAsBox(camera.viewportWidth,2f);
         groundObj.getBody().createFixture(groundBox,0f);
     }
 
