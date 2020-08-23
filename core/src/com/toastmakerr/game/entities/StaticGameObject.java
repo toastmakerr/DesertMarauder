@@ -8,9 +8,9 @@ import com.badlogic.gdx.physics.box2d.World;
 public class StaticGameObject extends BodyDef{
     private Body body;
 
-    public StaticGameObject(World world){
+    public StaticGameObject(World world, Vector2 pos){
         this.type = BodyType.StaticBody;
-        this.position.set(position);
+        this.position.set(pos);
         body = world.createBody(this);
     }
 

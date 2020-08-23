@@ -3,23 +3,40 @@ package com.toastmakerr.game.controllers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.toastmakerr.game.AssetsManager;
 import com.toastmakerr.game.animations.PlayerAction;
 import com.toastmakerr.game.animations.PlayerAnimation;
 
 public class Player {
-    private static final float MAX_VELOCITY = 20;
     private PlayerAnimation playerAnimation;
     private DynamicGameObject player;
+    private FixtureDef fixtureDef;
+    private PolygonShape hitBox;
+    private Fixture fixture;
+    private boolean midAir;
 
     public Player(AssetsManager assetManager, World world){
         playerAnimation = new PlayerAnimation(assetManager);
         player = new DynamicGameObject(world, playerAnimation.getPos());
+        hitBox = new PolygonShape();
+        fixtureDef = new FixtureDef();
+        fixtureDef.shape = hitBox;
+        fixtureDef.density = 0.985f;
+        fixtureDef.friction = 0.4f;
+        fixtureDef.restitution = 0f;
+        hitBox.setAsBox(1f,1f);
+        fixture = player.getBody().createFixture(fixtureDef);
+        hitBox.dispose();
+
     }
 
     public void update(){
         playerAnimation.setPos(player.getPosition());
+        System.out.println(player.getPosition());
     }
 
     public void inputHandler(){ //Need to add joypad option for android
@@ -28,7 +45,7 @@ public class Player {
             playerAnimation.setAction(PlayerAction.IDLE);
             player.moveDynamicObj(new Vector2(0,0));
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
             playerAnimation.setFrameDuration(0.08f);
             playerAnimation.setAction(PlayerAction.JUMP);
             player.moveDynamicObj(new Vector2(0,10f));
@@ -45,6 +62,7 @@ public class Player {
             player.moveDynamicObj(new Vector2(0,10f));
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.S)){
+            player.moveDynamicObj(new Vector2(0,-10f));
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.A) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
             playerAnimation.setFrameDuration(0.05f);

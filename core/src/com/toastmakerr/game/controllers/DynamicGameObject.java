@@ -14,6 +14,9 @@ public class DynamicGameObject extends BodyDef{
         body = world.createBody(this);
     }
 
+    public Body getBody(){
+        return body;
+    }
     public Vector2 getPosition(){
         return body.getPosition();
     }

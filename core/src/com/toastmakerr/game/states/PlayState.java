@@ -3,6 +3,8 @@ package com.toastmakerr.game.states;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.toastmakerr.game.Assets;
 import com.toastmakerr.game.AssetsManager;
@@ -22,11 +24,12 @@ public class PlayState extends State{
 
     public PlayState(GameStateManager manager, AssetsManager assetManager) {
         super(manager, assetManager);
-        camera.setToOrtho(false,  DesertMarauderMain.WIDTH / 40, DesertMarauderMain.HEIGHT / 40);
+        camera.setToOrtho(false,  15, 15 * (DesertMarauderMain.WIDTH / DesertMarauderMain.HEIGHT));
         world = new World(new Vector2(0,-9.8f), true);
         accumulator = 0;
         playerAnimation = new PlayerAnimation(assetManager);
         player = new Player(assetManager, world);
+        ground = new GroundObject(world, camera);
         BG1 = assetManager.am.get(Assets.DESERT_BG_1);
         BG2 = assetManager.am.get(Assets.DESERT_BG_2);
         BG3 = assetManager.am.get(Assets.DESERT_BG_3);
@@ -45,6 +48,7 @@ public class PlayState extends State{
         player.inputHandler();
         playerAnimation.setAnimation();
         player.update();
+        ground.update();
     }
 
     @Override
@@ -52,11 +56,11 @@ public class PlayState extends State{
         camera.update();
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        batch.draw(BG1,0,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
-        batch.draw(BG2,0,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
-        batch.draw(BG3,0,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
-        batch.draw(BG4,0,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
-        batch.draw(BG5,0,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
+        batch.draw(BG1,0,0, 15, 15 * (DesertMarauderMain.WIDTH / DesertMarauderMain.HEIGHT));
+        batch.draw(BG2,0,0, 15, 15 * (DesertMarauderMain.WIDTH / DesertMarauderMain.HEIGHT));
+        batch.draw(BG3,0,0, 15, 15 * (DesertMarauderMain.WIDTH / DesertMarauderMain.HEIGHT));
+        batch.draw(BG4,0,0, 15, 15 * (DesertMarauderMain.WIDTH / DesertMarauderMain.HEIGHT));
+        batch.draw(BG5,0,0, 15, 15 * (DesertMarauderMain.WIDTH / DesertMarauderMain.HEIGHT));
         playerAnimation.draw(batch);
         batch.end();
         stepWorld();
