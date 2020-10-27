@@ -15,8 +15,8 @@ public class PlayerAnimation {
     private TextureRegion currentFrame;
     private Animation<TextureRegion> animation;
     private static PlayerAction action;
+    private static PlayerAction previousAction;
     private AssetsManager assetManager;
-    private PlayerAction previousAction;
     private int rows;
     private int cols;
     private static float stateTime;
@@ -30,7 +30,7 @@ public class PlayerAnimation {
         previousAction = null;
         action = PlayerAction.IDLE;
         frameDuration = 0.25f;
-        setPos(new Vector2(0,1.5f));
+        setPos(new Vector2(0,1.565f));
         setAnimation();
     }
 
@@ -50,6 +50,8 @@ public class PlayerAnimation {
     public PlayerAction getAction(){
         return action;
     }
+
+    public PlayerAction getPrevAction(){ return previousAction;}
 
     public float getFrameDuration(){
         return frameDuration;

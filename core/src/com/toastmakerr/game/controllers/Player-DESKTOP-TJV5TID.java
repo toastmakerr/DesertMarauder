@@ -17,6 +17,7 @@ public class Player {
     private FixtureDef fixtureDef;
     private PolygonShape hitBox;
     private Fixture fixture;
+    private boolean midAir = false;
 
     public Player(AssetsManager assetManager, World world){
         playerAnimation = new PlayerAnimation(assetManager);
@@ -25,12 +26,11 @@ public class Player {
         fixtureDef = new FixtureDef();
         fixtureDef.shape = hitBox;
         fixtureDef.density = 0.985f;
-        fixtureDef.friction = 0.4f;
+        fixtureDef.friction = 1f;
         fixtureDef.restitution = 0f;
-        hitBox.setAsBox(1f,1f);
+        hitBox.setAsBox(0.75f,1f);
         fixture = player.getBody().createFixture(fixtureDef);
         hitBox.dispose();
-
     }
 
     public void update(){
@@ -39,15 +39,15 @@ public class Player {
     }
 
     public void inputHandler(){ //Need to add joypad option for android
-        if(!Gdx.input.isKeyPressed(Input.Keys.W) || !Gdx.input.isKeyPressed(Input.Keys.A) || !Gdx.input.isKeyPressed(Input.Keys.S) || !Gdx.input.isKeyPressed(Input.Keys.D)){
+        if(!Gdx.input.isKeyPressed(Input.Keys.W) || !Gdx.input.isKeyPressed(Input.Keys.A) || !Gdx.input.isKeyPressed(Input.Keys.S) || !Gdx.input.isKeyPressed(Input.Keys.D) && !midAir){
             playerAnimation.setFrameDuration(0.25f);
             playerAnimation.setAction(PlayerAction.IDLE);
             player.moveDynamicObj(new Vector2(0,0));
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
             playerAnimation.setFrameDuration(0.08f);
             playerAnimation.setAction(PlayerAction.JUMP);
-            player.moveDynamicObj(new Vector2(0,10f));
+            player.moveDynamicObj(new Vector2(0,2f));
             if(Gdx.input.isKeyPressed(Input.Keys.D)){
                 playerAnimation.flipSprite(false);
             }
@@ -58,34 +58,34 @@ public class Player {
         else if(Gdx.input.isKeyPressed(Input.Keys.W)){
             playerAnimation.setFrameDuration(0.07f);
             playerAnimation.setAction(PlayerAction.JUMP);
-            player.moveDynamicObj(new Vector2(0,10f));
+            player.moveDynamicObj(new Vector2(0,2f));
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.S)){
-            player.moveDynamicObj(new Vector2(0,-10f));
+            player.moveDynamicObj(new Vector2(0,0f));
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.A) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
             playerAnimation.setFrameDuration(0.05f);
             playerAnimation.flipSprite(true);
             playerAnimation.setAction(PlayerAction.RUN);
-            player.moveDynamicObj(new Vector2(-10f,0));
+            player.moveDynamicObj(new Vector2(-3f,0));
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.A)){
             playerAnimation.setFrameDuration(0.07f);
             playerAnimation.flipSprite(true);
             playerAnimation.setAction(PlayerAction.WALK);
-            player.moveDynamicObj(new Vector2(-5f,0));
+            player.moveDynamicObj(new Vector2(-2f,0));
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.D) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
             playerAnimation.setFrameDuration(0.05f);
             playerAnimation.flipSprite(false);
             playerAnimation.setAction(PlayerAction.RUN);
-            player.moveDynamicObj(new Vector2(10f,0));
+            player.moveDynamicObj(new Vector2(3f,0));
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.D)){
             playerAnimation.setFrameDuration(0.07f);
             playerAnimation.flipSprite(false);
             playerAnimation.setAction(PlayerAction.WALK);
-            player.moveDynamicObj(new Vector2(5f,0));
+            player.moveDynamicObj(new Vector2(2f,0));
         }
     }
 
