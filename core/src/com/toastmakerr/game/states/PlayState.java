@@ -7,17 +7,15 @@ import com.toastmakerr.game.AssetsManager;
 import com.toastmakerr.game.DesertMarauderMain;
 import com.toastmakerr.game.animations.PlayerAnimation;
 import com.toastmakerr.game.controllers.Player;
+import com.toastmakerr.game.gameworld.WorldManager;
 
 public class PlayState extends State{
     private Texture BG1, BG2, BG3, BG4, BG5;
-    private PlayerAnimation playerAnimation;
-    private Player player;
-
+    private WorldManager world;
     public PlayState(GameStateManager manager, AssetsManager assetManager) {
         super(manager, assetManager);
+        world = new WorldManager(assetManager);
         camera.setToOrtho(false,  DesertMarauderMain.WIDTH / 40, DesertMarauderMain.HEIGHT / 40);
-        playerAnimation = new PlayerAnimation(assetManager);
-        player = new Player(assetManager);
         BG1 = assetManager.am.get(Assets.DESERT_BG_1);
         BG2 = assetManager.am.get(Assets.DESERT_BG_2);
         BG3 = assetManager.am.get(Assets.DESERT_BG_3);
@@ -32,8 +30,7 @@ public class PlayState extends State{
 
     @Override
     public void update(float delta) {
-        playerAnimation.setAnimation();
-        player.update();
+        world.update();
     }
 
     @Override
@@ -46,7 +43,7 @@ public class PlayState extends State{
         batch.draw(BG3,0,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
         batch.draw(BG4,0,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
         batch.draw(BG5,0,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
-        playerAnimation.draw(batch);
+        world.getPlayerAnimation().draw(batch);
         batch.end();
     }
 

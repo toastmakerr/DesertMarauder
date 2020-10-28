@@ -15,10 +15,10 @@ public class DynamicGameObject extends GameObject{
 
     public void updatePos(){
         vel.y += GRAVITY;
-        pos.x += vel.x;
-        pos.y += vel.y;
-        hitBox.x += vel.x;
-        hitBox.y += vel.y;
+        this.obj.x += vel.x;
+        this.obj.y += vel.y;
+        this.obj.width += vel.x;
+        this.obj.height += vel.y;
         onGround();
     }
 
@@ -31,8 +31,8 @@ public class DynamicGameObject extends GameObject{
     }
 
     public void onGround(){
-        if(pos.y <= 2.5){
-            pos.y = 2.5f;
+        if(obj.y <= 2.5){
+            obj.y = 2.5f;
             vel.y = 0;
             isGrounded = true;
         }
@@ -44,6 +44,10 @@ public class DynamicGameObject extends GameObject{
 
     public void setGrounded(boolean bool){
         isGrounded = bool;
+    }
+
+    public boolean collisionDetection(GameObject otherObj){
+        return this.obj.overlaps(otherObj.obj);
     }
 }
 
