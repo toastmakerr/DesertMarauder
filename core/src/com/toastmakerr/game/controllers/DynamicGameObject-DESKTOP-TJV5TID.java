@@ -26,6 +26,6 @@ public class DynamicGameObject extends BodyDef{
     }
 
     public void moveDynamicObj(Vector2 vel){
-        body.setLinearVelocity(vel);
+        body.applyLinearImpulse(vel,position,true);
     }
 }
