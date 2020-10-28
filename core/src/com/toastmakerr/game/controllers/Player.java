@@ -3,51 +3,41 @@ package com.toastmakerr.game.controllers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
 import com.toastmakerr.game.AssetsManager;
 import com.toastmakerr.game.animations.PlayerAction;
 import com.toastmakerr.game.animations.PlayerAnimation;
 
-public class Player {
+public class Player extends DynamicGameObject{
     private PlayerAnimation playerAnimation;
-    private DynamicGameObject player;
-    private FixtureDef fixtureDef;
-    private PolygonShape hitBox;
-    private Fixture fixture;
+    private final static Vector2 HIT_BOX = new Vector2(1, 1.5f);
+    private final static Vector2 STARTING_POS = new Vector2(2, 2.5f);
+    private final static Vector2 STARTING_VEL = new Vector2(0, 0);
+    private final static float RUNNING_VEL = 0.5f;
+    private final static float WALKING_VEL = 0.15f;
+    private final static float JUMPING_VEL = 2f;
 
-    public Player(AssetsManager assetManager, World world){
+    public Player(AssetsManager assetManager){
+        super(STARTING_POS, HIT_BOX, STARTING_VEL);
         playerAnimation = new PlayerAnimation(assetManager);
-        player = new DynamicGameObject(world, playerAnimation.getPos());
-        hitBox = new PolygonShape();
-        fixtureDef = new FixtureDef();
-        fixtureDef.shape = hitBox;
-        fixtureDef.density = 0.985f;
-        fixtureDef.friction = 0.4f;
-        fixtureDef.restitution = 0f;
-        hitBox.setAsBox(1f,1f);
-        fixture = player.getBody().createFixture(fixtureDef);
-        hitBox.dispose();
-
     }
 
     public void update(){
-        playerAnimation.setPos(player.getPosition());
-        System.out.println(player.getPosition());
+        animationHandler();
+        inputHandler();
+        updatePos();
+        playerAnimation.setPos(this.getPosition());
+        System.out.println(this.getPosition());
     }
 
-    public void inputHandler(){ //Need to add joypad option for android
-        if(!Gdx.input.isKeyPressed(Input.Keys.W) || !Gdx.input.isKeyPressed(Input.Keys.A) || !Gdx.input.isKeyPressed(Input.Keys.S) || !Gdx.input.isKeyPressed(Input.Keys.D)){
+
+    public void animationHandler(){
+        if(!Gdx.input.isKeyPressed(Input.Keys.W) && !Gdx.input.isKeyPressed(Input.Keys.A) && !Gdx.input.isKeyPressed(Input.Keys.S) && !Gdx.input.isKeyPressed(Input.Keys.D) && !Gdx.input.isKeyPressed(Input.Keys.SPACE)){
             playerAnimation.setFrameDuration(0.25f);
             playerAnimation.setAction(PlayerAction.IDLE);
-            player.moveDynamicObj(new Vector2(0,0));
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
-            playerAnimation.setFrameDuration(0.08f);
+        else if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+            playerAnimation.setFrameDuration(0.045f);
             playerAnimation.setAction(PlayerAction.JUMP);
-            player.moveDynamicObj(new Vector2(0,10f));
             if(Gdx.input.isKeyPressed(Input.Keys.D)){
                 playerAnimation.flipSprite(false);
             }
@@ -55,38 +45,53 @@ public class Player {
                 playerAnimation.flipSprite(true);
             }
         }
-        else if(Gdx.input.isKeyPressed(Input.Keys.W)){
-            playerAnimation.setFrameDuration(0.07f);
-            playerAnimation.setAction(PlayerAction.JUMP);
-            player.moveDynamicObj(new Vector2(0,10f));
-        }
-        else if(Gdx.input.isKeyPressed(Input.Keys.S)){
-            player.moveDynamicObj(new Vector2(0,-10f));
-        }
-        else if(Gdx.input.isKeyPressed(Input.Keys.A) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+        else if(Gdx.input.isKeyPressed(Input.Keys.A) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
             playerAnimation.setFrameDuration(0.05f);
             playerAnimation.flipSprite(true);
             playerAnimation.setAction(PlayerAction.RUN);
-            player.moveDynamicObj(new Vector2(-10f,0));
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.A)){
             playerAnimation.setFrameDuration(0.07f);
             playerAnimation.flipSprite(true);
             playerAnimation.setAction(PlayerAction.WALK);
-            player.moveDynamicObj(new Vector2(-5f,0));
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.D) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
             playerAnimation.setFrameDuration(0.05f);
             playerAnimation.flipSprite(false);
             playerAnimation.setAction(PlayerAction.RUN);
-            player.moveDynamicObj(new Vector2(10f,0));
         }
         else if(Gdx.input.isKeyPressed(Input.Keys.D)){
             playerAnimation.setFrameDuration(0.07f);
             playerAnimation.flipSprite(false);
             playerAnimation.setAction(PlayerAction.WALK);
-            player.moveDynamicObj(new Vector2(5f,0));
+        }
+    }
+
+    public void inputHandler(){
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+            if(this.isGrounded()) {
+                this.setVelocityY(JUMPING_VEL);
+                this.setGrounded(false);
+            }
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.A) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+            this.setVelocityX(-RUNNING_VEL);
+        }
+        else if(Gdx.input.isKeyPressed(Input.Keys.A)){
+            this.setVelocityX(-WALKING_VEL);
+        }
+        else if(Gdx.input.isKeyPressed(Input.Keys.D) && Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
+            this.setVelocityX(RUNNING_VEL);
+        }
+        else if(Gdx.input.isKeyPressed(Input.Keys.D)){
+            this.setVelocityX(WALKING_VEL);
+        }
+        else if(!Gdx.input.isKeyPressed(Input.Keys.D) && !Gdx.input.isKeyJustPressed(Input.Keys.A)){
+            if(this.isGrounded()){
+                this.setVelocityX(0);
+            }
         }
     }
 
 }
+
