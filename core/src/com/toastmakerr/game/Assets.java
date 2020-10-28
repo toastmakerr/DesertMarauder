@@ -16,7 +16,7 @@ public final class Assets {
 
     public static final AssetDescriptor<Texture> DESERT_BG_4 = new AssetDescriptor<Texture>("backgrounds/1/4.png", Texture.class);
 
-    public static final AssetDescriptor<Texture> DESERT_BG_5 = new AssetDescriptor<Texture>("backgrounds/1/5.png", Texture.class);
+    public static final AssetDescriptor<Texture> DESERT_BG_5 = new AssetDescriptor<Texture>("backgrounds/1/5-remade.png", Texture.class);
 
     public static final AssetDescriptor<Texture> PLAYER_IDLE = new AssetDescriptor<Texture>("2 GraveRobber/GraveRobber_idle.png", Texture.class);
 

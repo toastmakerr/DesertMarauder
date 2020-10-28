@@ -35,28 +35,21 @@ public class PlayerAnimation {
     }
 
     public void draw(SpriteBatch batch){
-        stateTime += Gdx.graphics.getDeltaTime();
-        if(stateTime > animation.getAnimationDuration()){
-            stateTime -= animation.getAnimationDuration();
+        if(action == PlayerAction.JUMP){
+            stateTime += Gdx.graphics.getDeltaTime();
         }
-        currentFrame = animation.getKeyFrame(stateTime,true);
+        else{
+            stateTime += Gdx.graphics.getDeltaTime();
+            if(stateTime > animation.getAnimationDuration()){
+                stateTime -= animation.getAnimationDuration();
+            }
+        }
+        currentFrame = animation.getKeyFrame(stateTime,false);
         batch.draw(currentFrame, animationPos.x, animationPos.y, 3,2,7, 7, (flip ? -1 : 1) ,1,0);
     }
 
     public void flipSprite(boolean bool){
         flip = bool;
-    }
-
-    public PlayerAction getAction(){
-        return action;
-    }
-
-    public float getFrameDuration(){
-        return frameDuration;
-    }
-
-    public Vector2 getPos(){
-        return animationPos;
     }
 
     public void newAnimation(Texture spriteSheet, int row, int col){
@@ -105,6 +98,13 @@ public class PlayerAnimation {
                     previousAction = PlayerAction.JUMP;
                 }
                 break;
+            case FALL:
+                if(previousAction != PlayerAction.FALL) {
+                    newAnimation(assetManager.am.get(Assets.PLAYER_FALL), 1, 3);
+                    previousAction = PlayerAction.JUMP;
+                }
+                break;
+
         }
     }
 
