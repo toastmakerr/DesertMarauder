@@ -35,14 +35,9 @@ public class PlayerAnimation {
     }
 
     public void draw(SpriteBatch batch){
-        if(action == PlayerAction.JUMP){
-            stateTime += Gdx.graphics.getDeltaTime();
-        }
-        else{
-            stateTime += Gdx.graphics.getDeltaTime();
-            if(stateTime > animation.getAnimationDuration()){
-                stateTime -= animation.getAnimationDuration();
-            }
+        stateTime += Gdx.graphics.getDeltaTime();
+        if(stateTime > animation.getAnimationDuration()){
+            stateTime -= animation.getAnimationDuration();
         }
         currentFrame = animation.getKeyFrame(stateTime,false);
         batch.draw(currentFrame, animationPos.x, animationPos.y, 3,2,7, 7, (flip ? -1 : 1) ,1,0);

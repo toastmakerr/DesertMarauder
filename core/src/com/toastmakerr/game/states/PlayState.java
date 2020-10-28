@@ -14,8 +14,8 @@ public class PlayState extends State{
     private WorldManager world;
     public PlayState(GameStateManager manager, AssetsManager assetManager) {
         super(manager, assetManager);
-        world = new WorldManager(assetManager);
         camera.setToOrtho(false,  DesertMarauderMain.WIDTH / 40, DesertMarauderMain.HEIGHT / 40);
+        world = new WorldManager(assetManager, camera);
         BG1 = assetManager.am.get(Assets.DESERT_BG_1);
         BG2 = assetManager.am.get(Assets.DESERT_BG_2);
         BG3 = assetManager.am.get(Assets.DESERT_BG_3);

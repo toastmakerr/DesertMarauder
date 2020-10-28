@@ -68,7 +68,7 @@ public class Player extends DynamicGameObject{
     }
 
     public void inputHandler(){
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
             if(this.isGrounded()) {
                 this.setVelocityY(JUMPING_VEL);
                 this.setGrounded(false);
