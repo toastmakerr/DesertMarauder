@@ -17,9 +17,6 @@ public class DynamicGameObject extends GameObject{
         vel.y += GRAVITY;
         this.obj.x += vel.x;
         this.obj.y += vel.y;
-        this.obj.width += vel.x;
-        this.obj.height += vel.y;
-        onGround();
     }
 
     public void setVelocityX(float velX){
@@ -30,24 +27,20 @@ public class DynamicGameObject extends GameObject{
         this.vel.y = velY;
     }
 
-    public void onGround(){
-        if(obj.y <= 2.5){
-            obj.y = 2.5f;
+    public void onGround(GameObject floor){
+        if(isGrounded(floor)){
+            obj.y = floor.obj.y + floor.obj.height;
             vel.y = 0;
             isGrounded = true;
         }
     }
 
-    public boolean isGrounded(){
+    public boolean getGrounded(){
         return isGrounded;
     }
 
     public void setGrounded(boolean bool){
         isGrounded = bool;
-    }
-
-    public boolean collisionDetection(GameObject otherObj){
-        return this.obj.overlaps(otherObj.obj);
     }
 }
 

@@ -17,4 +17,10 @@ public class GameObject {
     public Vector2 getPosition(){
         return new Vector2(obj.x, obj.y);
     }
+
+    public boolean isGrounded(GameObject floorSurface){
+        if(obj.y <= floorSurface.obj.y + floorSurface.obj.height)
+            return true;
+        return false;
+    }
 }

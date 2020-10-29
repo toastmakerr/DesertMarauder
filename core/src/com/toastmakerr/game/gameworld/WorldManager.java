@@ -21,6 +21,7 @@ public class WorldManager extends World {
     public void update(){
         playerAnimation.setAnimation();
         player.update();
+        player.onGround(ground);
     }
 
     public PlayerAnimation getPlayerAnimation(){

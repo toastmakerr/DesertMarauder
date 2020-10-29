@@ -19,6 +19,9 @@ public class AssetsManager {
         am.load(Assets.PLAYER_WALK);
         am.load(Assets.PLAYER_JUMP);
         am.load(Assets.PLAYER_FALL);
+        am.load(Assets.PLAYER_ATTACK_1);
+        am.load(Assets.PLAYER_ATTACK_2);
+        am.load(Assets.PLAYER_ATTACK_3);
         am.finishLoading();
     }
 

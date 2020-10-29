@@ -9,6 +9,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.toastmakerr.game.Assets;
 import com.toastmakerr.game.AssetsManager;
 
+import java.util.Random;
+
 public class PlayerAnimation {
     private Texture texture;
     private TextureRegion[] spriteFrames;
@@ -36,15 +38,23 @@ public class PlayerAnimation {
 
     public void draw(SpriteBatch batch){
         stateTime += Gdx.graphics.getDeltaTime();
-        if(stateTime > animation.getAnimationDuration()){
-            stateTime -= animation.getAnimationDuration();
-        }
-        currentFrame = animation.getKeyFrame(stateTime,false);
+        currentFrame = animation.getKeyFrame(stateTime,true);
         batch.draw(currentFrame, animationPos.x, animationPos.y, 3,2,7, 7, (flip ? -1 : 1) ,1,0);
+        System.out.println(stateTime);
     }
 
     public void flipSprite(boolean bool){
         flip = bool;
+    }
+
+    public boolean isAnimFinished(PlayerAction act, float mult){
+        if(action == action)
+            return animation.isAnimationFinished(stateTime * mult);
+        return false;
+    }
+
+    public PlayerAction getAction(){
+        return action;
     }
 
     public void newAnimation(Texture spriteSheet, int row, int col){
@@ -65,6 +75,27 @@ public class PlayerAnimation {
 
     public void setAction(PlayerAction act){
         action = act;
+    }
+
+    public void setRandomAttackAction(){
+        Random random = new Random();
+        int rand = random.nextInt(2);
+        PlayerAction act = PlayerAction.ATTACK_1;
+        switch(rand){
+            case 0:
+                act = PlayerAction.ATTACK_1;
+                break;
+            case 1:
+                act = PlayerAction.ATTACK_2;
+                break;
+        }
+        action = act;
+    }
+
+    public boolean isAttackAction(){
+        if(action == PlayerAction.ATTACK_1 || action == PlayerAction.ATTACK_2)
+            return true;
+        return false;
     }
 
     public void setAnimation(){
@@ -96,10 +127,21 @@ public class PlayerAnimation {
             case FALL:
                 if(previousAction != PlayerAction.FALL) {
                     newAnimation(assetManager.am.get(Assets.PLAYER_FALL), 1, 3);
-                    previousAction = PlayerAction.JUMP;
+                    previousAction = PlayerAction.FALL;
                 }
                 break;
-
+            case ATTACK_1:
+                if(previousAction != PlayerAction.ATTACK_1) {
+                    newAnimation(assetManager.am.get(Assets.PLAYER_ATTACK_1), 1, 6);
+                    previousAction = PlayerAction.ATTACK_1;
+                }
+                break;
+            case ATTACK_2:
+                if(previousAction != PlayerAction.ATTACK_2) {
+                    newAnimation(assetManager.am.get(Assets.PLAYER_ATTACK_2), 1, 6);
+                    previousAction = PlayerAction.ATTACK_2;
+                }
+                break;
         }
     }
 
