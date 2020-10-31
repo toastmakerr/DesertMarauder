@@ -7,16 +7,15 @@ import com.toastmakerr.game.AssetsManager;
 import com.toastmakerr.game.animations.PlayerAction;
 import com.toastmakerr.game.animations.PlayerAnimation;
 
-import java.util.Random;
 
 public class Player extends DynamicGameObject {
     private PlayerAnimation playerAnimation;
-    private final static Vector2 HIT_BOX = new Vector2(1, 1.5f);
-    private final static Vector2 STARTING_POS = new Vector2(2, 3f);
+    private final static Vector2 HIT_BOX = new Vector2(1.5f, 2.5f);
+    private final static Vector2 STARTING_POS = new Vector2(0, 3f);
     private final static Vector2 STARTING_VEL = new Vector2(0, 0);
     private final static float RUNNING_VEL = 0.5f;
     private final static float WALKING_VEL = 0.15f;
-    private final static float JUMPING_VEL = 2f;
+    private final static float JUMPING_VEL = 1.5f;
 
     public Player(AssetsManager assetManager) {
         super(STARTING_POS, HIT_BOX, STARTING_VEL);
@@ -28,7 +27,7 @@ public class Player extends DynamicGameObject {
         inputHandler();
         updatePos();
         playerAnimation.setPos(this.getPosition());
-        //System.out.println(this.getPosition());
+        playerAnimation.setDimensions(this.getDimensions());
     }
 
 

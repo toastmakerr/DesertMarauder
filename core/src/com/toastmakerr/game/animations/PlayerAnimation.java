@@ -25,22 +25,22 @@ public class PlayerAnimation {
     private static boolean flip;
     private static float frameDuration;
     private static Vector2 animationPos;
-
+    private static Vector2 animationDimensions;
     public PlayerAnimation(AssetsManager assetsManager){
         this.assetManager = assetsManager;
         flip = false;
         previousAction = null;
         action = PlayerAction.IDLE;
         frameDuration = 0.25f;
-        setPos(new Vector2(2,2));
+        setPos(new Vector2(2,3));
+        setDimensions(new Vector2(0,0));
         setAnimation();
     }
 
     public void draw(SpriteBatch batch){
         stateTime += Gdx.graphics.getDeltaTime();
         currentFrame = animation.getKeyFrame(stateTime,true);
-        batch.draw(currentFrame, animationPos.x, animationPos.y, 3,2,7, 7, (flip ? -1 : 1) ,1,0);
-        System.out.println(stateTime);
+        batch.draw(currentFrame, animationPos.x - 0.78f, animationPos.y, animationDimensions.x * 2.2f / 2,animationDimensions.y * 1.455f / 2, animationDimensions.x * 2.626f, animationDimensions.y * 1.455f, (flip ? -1 : 1) ,1,0);
     }
 
     public void flipSprite(boolean bool){
@@ -51,10 +51,6 @@ public class PlayerAnimation {
         if(action == action)
             return animation.isAnimationFinished(stateTime * mult);
         return false;
-    }
-
-    public PlayerAction getAction(){
-        return action;
     }
 
     public void newAnimation(Texture spriteSheet, int row, int col){
@@ -151,6 +147,10 @@ public class PlayerAnimation {
 
     public void setPos(Vector2 pos){
         animationPos = pos;
+    }
+
+    public void setDimensions(Vector2 dim){
+        animationDimensions = dim;
     }
 
 }

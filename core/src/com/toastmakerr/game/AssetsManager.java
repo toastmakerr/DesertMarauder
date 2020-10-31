@@ -21,7 +21,7 @@ public class AssetsManager {
         am.load(Assets.PLAYER_FALL);
         am.load(Assets.PLAYER_ATTACK_1);
         am.load(Assets.PLAYER_ATTACK_2);
-        am.load(Assets.PLAYER_ATTACK_3);
+        am.load(Assets.DESERT_PLATFORM);
         am.finishLoading();
     }
 

@@ -5,16 +5,16 @@ import com.toastmakerr.game.controllers.GameObject;
 import java.util.ArrayList;
 
 public class World {
-    ArrayList<GameObject> gameObjs;
+    protected ArrayList<GameObject> floorObjs;
     public World(){
-        gameObjs = new ArrayList<>();
+        floorObjs = new ArrayList<>();
     }
 
     public void addObj(GameObject obj){
-        gameObjs.add(obj);
+        floorObjs.add(obj);
     }
 
     public void removeObj(GameObject obj){
-        gameObjs.remove(obj);
+        floorObjs.remove(obj);
     }
 }
