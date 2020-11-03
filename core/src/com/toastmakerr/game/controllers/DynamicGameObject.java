@@ -36,6 +36,8 @@ public class DynamicGameObject extends GameObject{
                 vel.y = 0;
                 isGrounded = true;
             }
+            if(touchingCeiling(floorObjs.get(i)))
+                vel.y = 0;
         }
     }
 

@@ -15,15 +15,17 @@ public class WorldManager extends World {
     private final static float platformHeight = 1.5f;
     private Player player;
     private GameObject ground;
-    private GameObject platform;
+    private GameObject platform, platform2;
     public WorldManager(AssetsManager assetManager, Camera camera){
         super();
         playerAnimation = new PlayerAnimation(assetManager);
         player = new Player(assetManager);
         ground = new GameObject(new Vector2(0,0), new Vector2(DesertMarauderMain.WIDTH, GROUND_HEIGHT));
-        platform = new GameObject(new Vector2(20f,7.5f), new Vector2(platformWidth, platformHeight));//platform: width 366, height 36
+        platform = new GameObject(new Vector2(20f,8f), new Vector2(platformWidth, platformHeight));
+        platform2 = new GameObject(new Vector2(29.15f,8f), new Vector2(platformWidth, platformHeight));
         this.addObj(ground);
         this.addObj(platform);
+        this.addObj(platform2);
     }
 
     public void update(){
@@ -38,6 +40,14 @@ public class WorldManager extends World {
 
     public float getPlatformPosY(){
         return platform.getPosition().y;
+    }
+
+    public float getPlatform2PosX(){
+        return platform2.getPosition().x + 0.2f;
+    }
+
+    public float getPlatform2PosY(){
+        return platform2.getPosition().y;
     }
 
     public PlayerAnimation getPlayerAnimation(){

@@ -13,8 +13,8 @@ public class Player extends DynamicGameObject {
     private final static Vector2 HIT_BOX = new Vector2(1.5f, 2.5f);
     private final static Vector2 STARTING_POS = new Vector2(0, 3f);
     private final static Vector2 STARTING_VEL = new Vector2(0, 0);
-    private final static float RUNNING_VEL = 0.5f;
-    private final static float WALKING_VEL = 0.15f;
+    private final static float RUNNING_VEL = 0.25f;
+    private final static float WALKING_VEL = 0.12f;
     private final static float JUMPING_VEL = 1.5f;
 
     public Player(AssetsManager assetManager) {
@@ -23,9 +23,9 @@ public class Player extends DynamicGameObject {
     }
 
     public void update() {
-        animationHandler();
         inputHandler();
         updatePos();
+        animationHandler();
         playerAnimation.setPos(this.getPosition());
         playerAnimation.setDimensions(this.getDimensions());
     }

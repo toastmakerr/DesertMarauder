@@ -28,4 +28,11 @@ public class GameObject {
                 return true;
         return false;
     }
+
+    public boolean touchingCeiling(GameObject ceilingSurface){
+        if((int)(obj.y + obj.height) == ceilingSurface.obj.y)
+            if(obj.x + obj.width >= ceilingSurface.obj.x && obj.x <= ceilingSurface.obj.x + ceilingSurface.obj.width)
+                return true;
+        return false;
+    }
 }
