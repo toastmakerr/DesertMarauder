@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class DynamicGameObject extends GameObject{
     private boolean isGrounded;
     private Vector2 vel;
-    private final static float GRAVITY = -0.13f;
+    private static float GRAVITY = -0.13f;
 
     public DynamicGameObject(Vector2 pos, Vector2 hitBox, Vector2 vel){
         super(pos, hitBox);
@@ -29,15 +29,19 @@ public class DynamicGameObject extends GameObject{
         this.vel.y = velY;
     }
 
-    public void onGround(ArrayList<GameObject> floorObjs){
+    public void collisions(ArrayList<GameObject> floorObjs, ArrayList<GameObject> wallObjs){
         for(int i = 0; i < floorObjs.size(); i++) {
-            if (isGrounded(floorObjs.get(i))) {
+            if (touchingGround(floorObjs.get(i))) {
                 obj.y = floorObjs.get(i).obj.y + floorObjs.get(i).obj.height;
                 vel.y = 0;
                 isGrounded = true;
             }
             if(touchingCeiling(floorObjs.get(i)))
                 vel.y = 0;
+        }
+        for(int i = 0; i < wallObjs.size(); i++){
+            if(touchingWall(wallObjs.get(i)))
+                obj.x = wallObjs.get(i).obj.x + wallObjs.get(i).obj.width;
         }
     }
 

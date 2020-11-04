@@ -6,15 +6,21 @@ import java.util.ArrayList;
 
 public class World {
     protected ArrayList<GameObject> floorObjs;
+    protected ArrayList<GameObject> wallObjs;
     public World(){
         floorObjs = new ArrayList<>();
+        wallObjs = new ArrayList<>();
     }
 
-    public void addObj(GameObject obj){
+    public void addFloorObj(GameObject obj){
         floorObjs.add(obj);
     }
 
-    public void removeObj(GameObject obj){
+    public void addWallObj(GameObject obj){
+        wallObjs.add(obj);
+    }
+
+    public void removeFloorObj(GameObject obj){
         floorObjs.remove(obj);
     }
 }

@@ -40,7 +40,7 @@ public class PlayerAnimation {
     public void draw(SpriteBatch batch){
         stateTime += Gdx.graphics.getDeltaTime();
         currentFrame = animation.getKeyFrame(stateTime,true);
-        batch.draw(currentFrame, animationPos.x - 0.78f, animationPos.y, animationDimensions.x * 2.2f / 2,animationDimensions.y * 1.455f / 2, animationDimensions.x * 2.626f, animationDimensions.y * 1.455f, (flip ? -1 : 1) ,1,0);
+        batch.draw(currentFrame, animationPos.x - 0.78f, animationPos.y, animationDimensions.x * 1.9f / 2,animationDimensions.y * 1.455f / 2, animationDimensions.x * 3f, animationDimensions.y * 1.455f, (flip ? -1 : 1) ,1,0);
     }
 
     public void flipSprite(boolean bool){
