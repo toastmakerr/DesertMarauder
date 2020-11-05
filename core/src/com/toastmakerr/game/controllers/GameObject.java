@@ -22,6 +22,10 @@ public class GameObject {
         return new Vector2(obj.width, obj.height);
     }
 
+    public void shiftPositionX(float x){
+        obj.x += x;
+    }
+
     public boolean touchingGround(GameObject floorSurface){
         if((int)obj.y <= (int)(floorSurface.obj.y + floorSurface.obj.height) && (int)obj.y >= (int)(floorSurface.obj.y + floorSurface.obj.height - 0.0001))
             if((int)(obj.x + obj.width) >= (int)floorSurface.obj.x && (int)obj.x <= (int)(floorSurface.obj.x + floorSurface.obj.width))

@@ -31,23 +31,13 @@ public class PlayState extends State{
     public void update(float delta) {
         world.update();
         camera.update();
-        world.cameraScroller(camera);
+        world.screenScroller(camera);
     }
 
     @Override
     public void render(SpriteBatch batch) {
         batch.setProjectionMatrix(camera.combined);
-        batch.begin();
-        batch.draw(BG1,0,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
-        batch.draw(BG2,0,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
-        batch.draw(BG3,0,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
-        batch.draw(BG4,0,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
-        batch.draw(GROUND,0, 0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
-        batch.draw(PLATFORM, world.getPlatformPosX(world.getPlatform()), world.getPlatformPosY(world.getPlatform()), DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
-        batch.draw(PLATFORM, world.getPlatformPosX(world.getPlatform2()), world.getPlatformPosY(world.getPlatform2()), DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
-        batch.draw(PLATFORM, world.getPlatformPosX(world.getPlatform3()), world.getPlatformPosY(world.getPlatform3()), DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
-        world.getPlayerAnimation().draw(batch);
-        batch.end();
+        world.draw(batch);
     }
 
     @Override
