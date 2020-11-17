@@ -10,9 +10,6 @@ public class AssetsManager {
         am.load(Assets.DESERT_BG);
         am.load(Assets.DESERT_BG_1);
         am.load(Assets.DESERT_BG_2);
-        am.load(Assets.DESERT_BG_3);
-        am.load(Assets.DESERT_BG_4);
-        am.load(Assets.DESERT_BG_5);
         am.load(Assets.TITLE);
         am.load(Assets.PLAYER_IDLE);
         am.load(Assets.PLAYER_RUN);

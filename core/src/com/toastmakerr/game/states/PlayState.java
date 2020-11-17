@@ -27,7 +27,7 @@ public class PlayState extends State{
     @Override
     public void render(SpriteBatch batch) {
         batch.setProjectionMatrix(camera.combined);
-        world.draw(batch);
+        world.draw(batch, camera);
     }
 
     @Override

@@ -23,8 +23,8 @@ public class WorldManager extends World {
     private Player player;
     private GameObject ground;
     private GameObject platform, platform2, platform3, platform4, platform5, platform6, platform7, platform8;
-    private Texture BG1, BG2, BG3, BG4, GROUND, PLATFORM;
-    private float bg1PosX, bg1PosX_2, bg2PosX, bg2PosX_2, bg3PosX, bg3PosX_2, bg4PosX, bg4PosX_2, groundPosX, groundPosX_2;
+    private Texture BG1, BG1_2, BG2, BG2_2, PLATFORM;
+    private float bg1PosX, bg2PosX;
     public WorldManager(AssetsManager assetManager){
         playerAnimation = new PlayerAnimation(assetManager);
         player = new Player(assetManager);
@@ -39,15 +39,7 @@ public class WorldManager extends World {
         platform8 = new GameObject(new Vector2(80f,15f), new Vector2(PLATFORM_WIDTH, PLATFORM_HEIGHT));
 
         bg1PosX = 0;
-        bg1PosX_2 = DesertMarauderMain.WIDTH / 40;
         bg2PosX = 0;
-        bg2PosX_2 = DesertMarauderMain.WIDTH / 40;
-        bg3PosX = 0;
-        bg3PosX_2 = DesertMarauderMain.WIDTH / 40;
-        bg4PosX = 0;
-        bg4PosX_2 = DesertMarauderMain.WIDTH / 40;
-        groundPosX = 0;
-        groundPosX_2 = DesertMarauderMain.WIDTH / 40;
 
         this.addGroundObj(ground);
         this.addPlatformObj(platform);
@@ -60,25 +52,25 @@ public class WorldManager extends World {
         this.addPlatformObj(platform8);
 
         BG1 = assetManager.am.get(Assets.DESERT_BG_1);
+        BG1_2 = assetManager.am.get(Assets.DESERT_BG_1);
         BG2 = assetManager.am.get(Assets.DESERT_BG_2);
-        BG3 = assetManager.am.get(Assets.DESERT_BG_3);
-        BG4 = assetManager.am.get(Assets.DESERT_BG_4);
-        GROUND = assetManager.am.get(Assets.DESERT_BG_5);
+        BG2_2 = assetManager.am.get(Assets.DESERT_BG_2);
         PLATFORM = assetManager.am.get(Assets.DESERT_PLATFORM);
     }
 
-    public void draw(SpriteBatch batch){
+    public void draw(SpriteBatch batch, Camera camera){
         batch.begin();
+        if(bg1PosX + DesertMarauderMain.WIDTH / 40 < camera.position.x - DesertMarauderMain.WIDTH / 80){
+           bg1PosX += DesertMarauderMain.WIDTH / 40;
+        }
+        if(bg2PosX + DesertMarauderMain.WIDTH / 40 < camera.position.x - DesertMarauderMain.WIDTH / 80){
+            bg2PosX += DesertMarauderMain.WIDTH / 40;
+        }
         batch.draw(BG1, bg1PosX,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
-        batch.draw(BG1, bg1PosX_2,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
+        batch.draw(BG1_2, bg1PosX + DesertMarauderMain.WIDTH / 40,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
         batch.draw(BG2, bg2PosX,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
-        batch.draw(BG2, bg2PosX_2,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
-        batch.draw(BG3, bg3PosX,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
-        batch.draw(BG3, bg3PosX_2,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
-        batch.draw(BG4, bg4PosX,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
-        batch.draw(BG4, bg4PosX_2,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
-        batch.draw(GROUND, groundPosX, 0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
-        batch.draw(GROUND, groundPosX_2, 0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
+        batch.draw(BG2_2, bg2PosX + DesertMarauderMain.WIDTH / 40,0, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
+
         playerAnimation.draw(batch);
         batch.draw(PLATFORM, platform.getPosition().x, platform.getPosition().y, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
         batch.draw(PLATFORM, platform2.getPosition().x, platform2.getPosition().y, DesertMarauderMain.WIDTH / 40,DesertMarauderMain.HEIGHT / 40);
@@ -103,53 +95,8 @@ public class WorldManager extends World {
         float scrollingDist = SCROLLING_SPEED * LERP;
         camera.position.x += scrollingDist;
         ground.shiftPositionX(scrollingDist);
-
         bg1PosX -= scrollingDist * 0.25f;
-        bg1PosX_2 -= scrollingDist * 0.25f;
         bg2PosX -= scrollingDist * 0.2f;
-        bg2PosX_2 -= scrollingDist * 0.2f;
-        bg3PosX -= scrollingDist * 0.15f;
-        bg3PosX_2 -= scrollingDist * 0.15f;
-        bg4PosX -= scrollingDist * 0.1;
-        bg4PosX_2 -= scrollingDist * 0.1;
-        groundPosX -= scrollingDist * 0.05;
-        groundPosX_2 -= scrollingDist * 0.05;
-
-        if(bg1PosX + DesertMarauderMain.WIDTH / 40 < camera.position.x - DesertMarauderMain.WIDTH / 80){
-            bg1PosX += DesertMarauderMain.WIDTH / 20;
-        }
-        else if(bg1PosX_2 + DesertMarauderMain.WIDTH / 40 < camera.position.x - DesertMarauderMain.WIDTH / 80){
-            bg1PosX_2 += DesertMarauderMain.WIDTH / 20;
-        }
-
-        if(bg2PosX + DesertMarauderMain.WIDTH / 40 < camera.position.x - DesertMarauderMain.WIDTH / 80){
-            bg2PosX += DesertMarauderMain.WIDTH / 20;
-        }
-        else if(bg2PosX_2 + DesertMarauderMain.WIDTH / 40 < camera.position.x - DesertMarauderMain.WIDTH / 80){
-            bg2PosX_2 += DesertMarauderMain.WIDTH / 20;
-        }
-
-        if(bg3PosX + DesertMarauderMain.WIDTH / 40 < camera.position.x - DesertMarauderMain.WIDTH / 80){
-            bg3PosX += DesertMarauderMain.WIDTH / 20;
-        }
-        else if(bg3PosX_2 + DesertMarauderMain.WIDTH / 40 <= camera.position.x - DesertMarauderMain.WIDTH / 80){
-        else if(bg3PosX_2 + DesertMarauderMain.WIDTH / 40 < camera.position.x - DesertMarauderMain.WIDTH / 80){
-            bg3PosX_2 += DesertMarauderMain.WIDTH / 20;
-        }
-
-        if(bg4PosX + DesertMarauderMain.WIDTH / 40 < camera.position.x - DesertMarauderMain.WIDTH / 80){
-            bg4PosX += DesertMarauderMain.WIDTH / 20;
-        }
-        else if(bg4PosX_2 + DesertMarauderMain.WIDTH / 40 < camera.position.x - DesertMarauderMain.WIDTH / 80){
-            bg4PosX_2 += DesertMarauderMain.WIDTH / 20;
-        }
-
-        if(groundPosX + DesertMarauderMain.WIDTH / 40 < camera.position.x - DesertMarauderMain.WIDTH / 80){
-            groundPosX += DesertMarauderMain.WIDTH / 20;
-        }
-        else if(groundPosX_2 + DesertMarauderMain.WIDTH / 40 < camera.position.x - DesertMarauderMain.WIDTH / 80){
-            groundPosX_2 += DesertMarauderMain.WIDTH / 20;
-        }
     }
 
     public void platformManager(Camera camera){
@@ -167,7 +114,6 @@ public class WorldManager extends World {
                     else{
                         getRandomYWithExclusion(-1);
                     }
-                    //if current y is above prev y, then x cannot be zero
                     if(getPlatformObj().get(i-1).getRectangle().y < getPlatformObj().get(i).getRectangle().y){
                         getRandomXWithExclusion(0);
                     }
