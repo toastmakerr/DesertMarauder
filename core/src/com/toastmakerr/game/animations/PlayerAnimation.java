@@ -40,7 +40,7 @@ public class PlayerAnimation {
     public void draw(SpriteBatch batch){
         stateTime += Gdx.graphics.getDeltaTime();
         currentFrame = animation.getKeyFrame(stateTime,true);
-        batch.draw(currentFrame, animationPos.x - 0.78f, animationPos.y, animationDimensions.x * 1.9f / 2,animationDimensions.y * 1.455f / 2, animationDimensions.x * 3f, animationDimensions.y * 1.455f, (flip ? -1 : 1) ,1,0);
+        batch.draw(currentFrame, animationPos.x - 1.65f, animationPos.y, 1.5f,2, 4, 4, (flip ? -1 : 1) ,1,0);
     }
 
     public void flipSprite(boolean bool){
@@ -48,9 +48,7 @@ public class PlayerAnimation {
     }
 
     public boolean isAnimFinished(PlayerAction act, float mult){
-        if(action == action)
-            return animation.isAnimationFinished(stateTime * mult);
-        return false;
+        return animation.isAnimationFinished(stateTime * mult);
     }
 
     public void newAnimation(Texture spriteSheet, int row, int col){

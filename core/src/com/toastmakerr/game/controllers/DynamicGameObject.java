@@ -29,14 +29,23 @@ public class DynamicGameObject extends GameObject{
         this.vel.y = velY;
     }
 
-    public void collisions(ArrayList<GameObject> floorObjs, ArrayList<GameObject> wallObjs){
-        for(int i = 0; i < floorObjs.size(); i++) {
-            if (touchingGround(floorObjs.get(i))) {
-                obj.y = floorObjs.get(i).obj.y + floorObjs.get(i).obj.height;
+    public void collisions(ArrayList<GameObject> groundObjs, ArrayList<GameObject> platformObjs, ArrayList<GameObject> wallObjs){
+        for(int i = 0; i < groundObjs.size(); i++) {
+            if (touchingGround(groundObjs.get(i))) {
+                obj.y = groundObjs.get(i).obj.y + groundObjs.get(i).obj.height;
                 vel.y = 0;
                 isGrounded = true;
             }
-            if(touchingCeiling(floorObjs.get(i)))
+            if(touchingCeiling(groundObjs.get(i)))
+                vel.y = 0;
+        }
+        for(int i = 0; i < platformObjs.size(); i++) {
+            if (touchingGround(platformObjs.get(i))) {
+                obj.y = platformObjs.get(i).obj.y + platformObjs.get(i).obj.height;
+                vel.y = 0;
+                isGrounded = true;
+            }
+            if(touchingCeiling(platformObjs.get(i)))
                 vel.y = 0;
         }
         for(int i = 0; i < wallObjs.size(); i++){

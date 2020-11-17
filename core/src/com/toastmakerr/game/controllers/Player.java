@@ -10,7 +10,7 @@ import com.toastmakerr.game.animations.PlayerAnimation;
 
 public class Player extends DynamicGameObject {
     private PlayerAnimation playerAnimation;
-    private final static Vector2 HIT_BOX = new Vector2(1.5f, 2.75f);
+    private final static Vector2 HIT_BOX = new Vector2(0.5f, 2.75f);
     private final static Vector2 STARTING_POS = new Vector2(2, 3f);
     private final static Vector2 STARTING_VEL = new Vector2(0, 0);
     private final static float RUNNING_VEL = 0.25f;
@@ -33,7 +33,7 @@ public class Player extends DynamicGameObject {
 
     public void animationHandler() {
         if (!playerAnimation.isAttackAction() || playerAnimation.isAnimFinished(PlayerAction.ATTACK_1, 3)) {
-            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && !this.getGrounded()) {
                 playerAnimation.setFrameDuration(0.045f);
                 playerAnimation.setAction(PlayerAction.JUMP);
                 if (Gdx.input.isKeyPressed(Input.Keys.D)) {
@@ -60,7 +60,7 @@ public class Player extends DynamicGameObject {
                 playerAnimation.setFrameDuration(0.07f);
                 playerAnimation.flipSprite(false);
                 playerAnimation.setAction(PlayerAction.WALK);
-            } else if (!Gdx.input.isKeyPressed(Input.Keys.W) && !Gdx.input.isKeyPressed(Input.Keys.A) && !Gdx.input.isKeyPressed(Input.Keys.S) && !Gdx.input.isKeyPressed(Input.Keys.D) && !Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            } else if (!Gdx.input.isKeyPressed(Input.Keys.W) && !Gdx.input.isKeyPressed(Input.Keys.A) && !Gdx.input.isKeyPressed(Input.Keys.S) && !Gdx.input.isKeyPressed(Input.Keys.D)|| Gdx.input.isKeyPressed(Input.Keys.S)) {
                 playerAnimation.setFrameDuration(0.25f);
                 playerAnimation.setAction(PlayerAction.IDLE);
             }
@@ -68,7 +68,7 @@ public class Player extends DynamicGameObject {
     }
 
     public void inputHandler() {
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && !playerAnimation.isAttackAction()) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && !playerAnimation.isAttackAction()) {
             if (this.getGrounded()) {
                 this.setVelocityY(JUMPING_VEL);
                 this.setGrounded(false);
@@ -92,6 +92,7 @@ public class Player extends DynamicGameObject {
             }
         }
     }
+
 }
 
 

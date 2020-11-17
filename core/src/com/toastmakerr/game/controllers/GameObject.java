@@ -18,6 +18,11 @@ public class GameObject {
         return new Vector2(obj.x, obj.y);
     }
 
+    public void setPosition(float x, float y){
+        obj.x = x;
+        obj.y = y;
+    }
+
     public Vector2 getDimensions(){
         return new Vector2(obj.width, obj.height);
     }
@@ -35,7 +40,7 @@ public class GameObject {
 
     public boolean touchingCeiling(GameObject ceilingSurface){
         if((int)(obj.y + obj.height) == ceilingSurface.obj.y)
-            if(obj.x + obj.width >= ceilingSurface.obj.x && obj.x <= ceilingSurface.obj.x + ceilingSurface.obj.width)
+            if(obj.x + obj.width > ceilingSurface.obj.x && obj.x < ceilingSurface.obj.x + ceilingSurface.obj.width)
                 return true;
         return false;
     }
@@ -44,5 +49,9 @@ public class GameObject {
         if(obj.x < wallObject.obj.x + wallObject.obj.width)
             return true;
         return false;
+    }
+
+    public Rectangle getRectangle(){
+        return obj;
     }
 }
