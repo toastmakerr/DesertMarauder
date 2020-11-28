@@ -47,7 +47,7 @@ public class PlayerAnimation {
         flip = bool;
     }
 
-    public boolean isAnimFinished(PlayerAction act, float mult){
+    public boolean isAnimFinished(float mult){
         return animation.isAnimationFinished(stateTime * mult);
     }
 
@@ -71,6 +71,10 @@ public class PlayerAnimation {
         action = act;
     }
 
+    public PlayerAction getAction(){
+        return action;
+    }
+
     public void setRandomAttackAction(){
         Random random = new Random();
         int rand = random.nextInt(2);
@@ -87,7 +91,7 @@ public class PlayerAnimation {
     }
 
     public boolean isAttackAction(){
-        if(action == PlayerAction.ATTACK_1 || action == PlayerAction.ATTACK_2)
+        if(action == PlayerAction.ATTACK_1 || action == PlayerAction.ATTACK_2 || action == PlayerAction.ATTACK_3)
             return true;
         return false;
     }
@@ -136,6 +140,13 @@ public class PlayerAnimation {
                     previousAction = PlayerAction.ATTACK_2;
                 }
                 break;
+            case ATTACK_3:
+                if(previousAction != PlayerAction.ATTACK_3) {
+                    newAnimation(assetManager.am.get(Assets.PLAYER_ATTACK_3), 1, 6);
+                    previousAction = PlayerAction.ATTACK_3;
+                }
+                break;
+
         }
     }
 
@@ -144,11 +155,20 @@ public class PlayerAnimation {
     }
 
     public void setPos(Vector2 pos){
+        pos.y -= 2;
         animationPos = pos;
     }
 
     public void setDimensions(Vector2 dim){
         animationDimensions = dim;
+    }
+
+    public PlayerAction getPreviousAction(){
+        return previousAction;
+    }
+
+    public void dispose(){
+        texture.dispose();
     }
 
 }

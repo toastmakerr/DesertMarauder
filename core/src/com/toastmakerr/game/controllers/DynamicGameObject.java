@@ -7,18 +7,23 @@ import java.util.ArrayList;
 public class DynamicGameObject extends GameObject{
     private boolean isGrounded;
     private Vector2 vel;
-    private static float GRAVITY = -0.13f;
+    private static float GRAVITY = 0;
+    private int lifePoints;
+    private boolean alive;
 
-    public DynamicGameObject(Vector2 pos, Vector2 hitBox, Vector2 vel){
+    public DynamicGameObject(Vector2 pos, Vector2 hitBox, Vector2 vel, int lifePoints){
         super(pos, hitBox);
         this.vel = vel;
         isGrounded = false;
+        this.lifePoints = lifePoints;
+        alive = true;
     }
 
-    public void updatePos(){
+    public void updateDetails(){
         vel.y += GRAVITY;
         this.obj.x += vel.x;
         this.obj.y += vel.y;
+        die();
     }
 
     public void setVelocityX(float velX){
@@ -31,16 +36,18 @@ public class DynamicGameObject extends GameObject{
 
     public void collisions(ArrayList<GameObject> groundObjs, ArrayList<GameObject> platformObjs, ArrayList<GameObject> wallObjs){
         for(int i = 0; i < groundObjs.size(); i++) {
-            if (touchingGround(groundObjs.get(i))) {
-                obj.y = groundObjs.get(i).obj.y + groundObjs.get(i).obj.height;
+            if(objOverlaps(groundObjs.get(i))){
+                GRAVITY = 0f;
                 vel.y = 0;
                 isGrounded = true;
             }
-            if(touchingCeiling(groundObjs.get(i)))
-                vel.y = 0;
+            else {
+                GRAVITY = -0.1f;
+            }
+
         }
         for(int i = 0; i < platformObjs.size(); i++) {
-            if (touchingGround(platformObjs.get(i))) {
+            if (objOverlaps(platformObjs.get(i))) {
                 obj.y = platformObjs.get(i).obj.y + platformObjs.get(i).obj.height;
                 vel.y = 0;
                 isGrounded = true;
@@ -54,6 +61,17 @@ public class DynamicGameObject extends GameObject{
         }
     }
 
+    public boolean inAttackRange(DynamicGameObject entity){
+        if((Math.abs(this.obj.x - entity.obj.x) < 0.3f) && (this.obj.y == entity.obj.y) ){
+            return true;
+        }
+        return false;
+    }
+
+    public void takeDamage(){
+        lifePoints--;
+    }
+
     public boolean getGrounded(){
         return isGrounded;
     }
@@ -61,5 +79,19 @@ public class DynamicGameObject extends GameObject{
     public void setGrounded(boolean bool){
         isGrounded = bool;
     }
+
+    public int getLifePoints(){
+        return lifePoints;
+    }
+
+    public void die(){
+        if(lifePoints == 0)
+            alive = false;
+    }
+
+    public Boolean isAlive(){
+        return alive;
+    }
+
 }
 

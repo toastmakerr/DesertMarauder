@@ -55,8 +55,6 @@ public class MenuState extends State{
 
     @Override
     public void dispose() {
-        background.dispose();
-        background2.dispose();
-        title.dispose();
+
     }
 }

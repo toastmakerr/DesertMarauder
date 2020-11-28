@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 public class GameObject {
     protected Rectangle obj;
 
-    public GameObject(Vector2 pos, Vector2 hitBox){ //Replace rectangle with private members again
+    public GameObject(Vector2 pos, Vector2 hitBox){
         obj = new Rectangle();
         obj.x = pos.x;
         obj.y = pos.y;
@@ -46,7 +46,14 @@ public class GameObject {
     }
 
     public boolean touchingWall(GameObject wallObject){
-        if(obj.x < wallObject.obj.x + wallObject.obj.width)
+        if(obj.y < wallObject.obj.y + wallObject.obj.height)
+            if(obj.x < wallObject.obj.x + wallObject.obj.width || obj.x + obj.width > wallObject.obj.x)
+                return true;
+        return false;
+    }
+
+    public boolean objOverlaps(GameObject obj){
+        if(this.obj.overlaps(obj.obj))
             return true;
         return false;
     }
@@ -54,4 +61,5 @@ public class GameObject {
     public Rectangle getRectangle(){
         return obj;
     }
+
 }

@@ -8,10 +8,12 @@ public class World {
     private ArrayList<GameObject> groundObjs;
     private ArrayList<GameObject> platformObjs;
     private ArrayList<GameObject> wallObjs;
+    private ArrayList<ScorpionManager> scorpions;
     public World(){
         groundObjs = new ArrayList<>();
         platformObjs = new ArrayList<>();
         wallObjs = new ArrayList<>();
+        scorpions = new ArrayList<>();
     }
 
     public void addGroundObj(GameObject obj){
@@ -48,6 +50,18 @@ public class World {
 
     public void removeWallObj(int index){
         wallObjs.remove(index);
+    }
+
+    public void addScorpion(ScorpionManager scorpion){
+        scorpions.add(scorpion);
+    }
+
+    public ArrayList<ScorpionManager> getScorpionsObj(){
+        return scorpions;
+    }
+
+    public void removeScorpion(int index){
+        scorpions.remove(index);
     }
 
 }
