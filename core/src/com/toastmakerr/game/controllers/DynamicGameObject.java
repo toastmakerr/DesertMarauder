@@ -1,40 +1,27 @@
 package com.toastmakerr.game.controllers;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 
 import java.util.ArrayList;
 
 public class DynamicGameObject extends GameObject{
     private boolean isGrounded;
-    private Vector2 vel;
-    private static float GRAVITY = 0;
     private int lifePoints;
     private boolean alive;
 
-    public DynamicGameObject(Vector2 pos, Vector2 hitBox, Vector2 vel, int lifePoints){
-        super(pos, hitBox);
-        this.vel = vel;
-        isGrounded = false;
+    public DynamicGameObject(Vector2 pos, Vector2 bodyDimensions, String userData, int lifePoints){
+        super(pos, bodyDimensions, BodyDef.BodyType.DynamicBody, userData);
+        isGrounded = true;
         this.lifePoints = lifePoints;
         alive = true;
     }
 
     public void updateDetails(){
-        vel.y += GRAVITY;
-        this.obj.x += vel.x;
-        this.obj.y += vel.y;
         die();
     }
 
-    public void setVelocityX(float velX){
-        this.vel.x = velX;
-    }
-
-    public void setVelocityY(float velY){
-        this.vel.y = velY;
-    }
-
-    public void collisions(ArrayList<GameObject> groundObjs, ArrayList<GameObject> platformObjs, ArrayList<GameObject> wallObjs){
+    /*public void collisions(ArrayList<GameObject> groundObjs, ArrayList<GameObject> platformObjs, ArrayList<GameObject> wallObjs){
         for(int i = 0; i < groundObjs.size(); i++) {
             if(objOverlaps(groundObjs.get(i))){
                 GRAVITY = 0f;
@@ -59,14 +46,14 @@ public class DynamicGameObject extends GameObject{
             if(touchingWall(wallObjs.get(i)))
                 obj.x = wallObjs.get(i).obj.x + wallObjs.get(i).obj.width;
         }
-    }
+    }*/
 
-    public boolean inAttackRange(DynamicGameObject entity){
+    /*public boolean inAttackRange(DynamicGameObject entity){
         if((Math.abs(this.obj.x - entity.obj.x) < 0.3f) && (this.obj.y == entity.obj.y) ){
             return true;
         }
         return false;
-    }
+    }*/
 
     public void takeDamage(){
         lifePoints--;

@@ -19,7 +19,7 @@ public class ScorpionManager {
 
     public void update(Player player, ArrayList<GameObject> ground, ArrayList<GameObject> platform, ArrayList<GameObject> wall){
         scorpion.update(player);
-        scorpion.collisions(ground, platform, wall);
+        //scorpion.collisions(ground, platform, wall);
     }
     public void draw(SpriteBatch batch, Camera camera){
         scorpion.draw(batch);

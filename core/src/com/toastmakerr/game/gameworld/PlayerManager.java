@@ -36,14 +36,14 @@ public class PlayerManager {
 
     public void update(ArrayList<GameObject> ground, ArrayList<GameObject> platform, ArrayList<GameObject> wall, ArrayList<ScorpionManager> scorpions){
         player.update();
-        player.collisions(ground, platform, wall);
-        for(int i = 0; i < scorpions.size(); i++) {
+        //player.collisions(ground, platform, wall);
+        /*for(int i = 0; i < scorpions.size(); i++) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.ALT_LEFT) || player.getRectangle().overlaps(scorpions.get(i).getScorpion().getRectangle()) && !tookDmg) {
-                player.pushPlayer();
+                //player.pushPlayer();
                 player.takeDamage();
                 tookDmg = true;
             }
-        }
+        }*/
         if(tookDmg) {
             invulnerabilityTimer += Gdx.graphics.getDeltaTime();
             if(invulnerabilityTimer >= 1) {

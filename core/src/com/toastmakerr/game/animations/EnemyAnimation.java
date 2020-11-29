@@ -31,7 +31,7 @@ public class EnemyAnimation {
         previousAction = null;
         action = EnemyAction.WALK;
         frameDuration = 0.25f;
-        setPos(new Vector2(40, 17f));
+        setPos(new Vector2(35, 9.15f));
         setDimensions(new Vector2(0,0));
         setAnimation();
     }
@@ -39,7 +39,7 @@ public class EnemyAnimation {
     public void draw(SpriteBatch batch){
         stateTime += Gdx.graphics.getDeltaTime();
         currentFrame = animation.getKeyFrame(stateTime,true);
-        batch.draw(currentFrame, animationPos.x - 2.2f, animationPos.y, 1.5f,2, 4, 4, (flip ? -1 : 1) ,1,0);
+        batch.draw(currentFrame, animationPos.x - 2.4f, animationPos.y - 0.7f, 1.5f,2, 4, 4, (flip ? -1 : 1) ,1,0);
     }
 
     public boolean isAnimFinished(float mult){
