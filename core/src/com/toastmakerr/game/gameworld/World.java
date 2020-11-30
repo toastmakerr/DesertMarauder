@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class World {
     private ArrayList<GameObject> groundObjs;
-    private ArrayList<GameObject> platformObjs;
+    private ArrayList<PlatformManager> platformObjs;
     private ArrayList<GameObject> wallObjs;
     private ArrayList<ScorpionManager> scorpions;
     public World(){
@@ -28,11 +28,11 @@ public class World {
         groundObjs.remove(index);
     }
 
-    public void addPlatformObj(GameObject obj){
+    public void addPlatformObj(PlatformManager obj){
         platformObjs.add(obj);
     }
 
-    public ArrayList<GameObject> getPlatformObj(){
+    public ArrayList<PlatformManager> getPlatformObj(){
         return platformObjs;
     }
 

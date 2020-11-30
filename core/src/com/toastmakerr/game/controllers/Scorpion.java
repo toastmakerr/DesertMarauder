@@ -1,10 +1,11 @@
 package com.toastmakerr.game.controllers;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.toastmakerr.game.AssetsManager;
+import com.toastmakerr.game.DesertMarauderMain;
 import com.toastmakerr.game.animations.EnemyAction;
 import com.toastmakerr.game.animations.EnemyAnimation;
 
@@ -15,31 +16,41 @@ public class Scorpion extends DynamicGameObject {
     private final static float WALKING_VEL = 0.1f;
     private final static int SCORPION_LIFE_POINTS = 1;
     private final static float MAX_VELOCITY = 5f;
-    public Scorpion(AssetsManager assetManager) {
-        super(STARTING_POS, BODY_DIMENSIONS, "Scorpion", SCORPION_LIFE_POINTS);
-        enemyAnimation= new EnemyAnimation(assetManager);
+    private final static float ATTACK_RANGE = 2.5f;
+    private boolean move = false;
+    private float clock = 0;
+    private boolean dead = false;
+    public Scorpion(AssetsManager assetManager, Vector2 startPos, boolean move) {
+        super(startPos, BODY_DIMENSIONS, "Scorpion", SCORPION_LIFE_POINTS);
+        enemyAnimation = new EnemyAnimation(assetManager, startPos);
     }
 
-    public void update(Player player) {
+    public void update(Player player, Camera camera) {
+        deathTimer();
+        updateDead(camera);
         inputHandler();
-        //updateDetails();
+        updateDetails();
         animationHandler(player);
+        enemyAnimation.setAnimation();
         enemyAnimation.setPos(this.getPosition());
-        //enemyAnimation.setAnimation();
         enemyAnimation.setDimensions(this.getDimensions());
     }
 
     public void draw(SpriteBatch batch){
-        if(isAlive())
             enemyAnimation.draw(batch);
     }
 
     public void animationHandler(Player player) {
-        if (!enemyAnimation.isAttackAction() || enemyAnimation.isAnimFinished(3)) {
+        if (!enemyAnimation.isAttackAction() || enemyAnimation.isAnimFinished(1)) {
            /* if (this.inAttackRange(player) && getGrounded()) {
                 enemyAnimation.setFrameDuration(0.05f);
                 enemyAnimation.setAction(EnemyAction.ATTACK);
-            } else */if (enemyAnimation.getAction() != EnemyAction.DEAD) {
+            } else */
+           if(!this.isAlive()){
+                enemyAnimation.setFrameDuration(0.1f);
+                enemyAnimation.setAction(EnemyAction.DEAD);
+            }
+           else if (enemyAnimation.getAction() != EnemyAction.DEAD) {
                 enemyAnimation.setFrameDuration(0.05f);
                 enemyAnimation.setAction(EnemyAction.WALK);
             }
@@ -47,15 +58,31 @@ public class Scorpion extends DynamicGameObject {
     }
 
     public void inputHandler() {
+        if(move)
             if (this.getLinearVel().x >= -MAX_VELOCITY)
                 this.applyLinearImp(-2f, 0f, 0f, 0f, true);
     }
 
-    /*public void dealDamage(Player player){
-        if(inAttackRange(player) && enemyAnimation.getAction() == EnemyAction.ATTACK){
-            player.takeDamage();
+    public void deathTimer(){
+        if(!this.isAlive() && !dead)
+            clock += Gdx.graphics.getDeltaTime();
+        if(dead)
+            clock = 0;
+    }
+
+    public float getDeathTimer(){
+        return clock;
+    }
+
+    public void updateDead(Camera camera){
+        if(this.getDeathTimer() > 0.3f || this.getPosition().x < camera.position.x - DesertMarauderMain.WIDTH / 80 - 5){
+            dead = true;
         }
-    }*/
+    }
+
+    public boolean getDead(){
+        return dead;
+    }
 
 }
 

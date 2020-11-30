@@ -3,8 +3,6 @@ package com.toastmakerr.game.controllers;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 
-import java.util.ArrayList;
-
 public class DynamicGameObject extends GameObject{
     private boolean isGrounded;
     private int lifePoints;
@@ -21,39 +19,12 @@ public class DynamicGameObject extends GameObject{
         die();
     }
 
-    /*public void collisions(ArrayList<GameObject> groundObjs, ArrayList<GameObject> platformObjs, ArrayList<GameObject> wallObjs){
-        for(int i = 0; i < groundObjs.size(); i++) {
-            if(objOverlaps(groundObjs.get(i))){
-                GRAVITY = 0f;
-                vel.y = 0;
-                isGrounded = true;
-            }
-            else {
-                GRAVITY = -0.1f;
-            }
-
-        }
-        for(int i = 0; i < platformObjs.size(); i++) {
-            if (objOverlaps(platformObjs.get(i))) {
-                obj.y = platformObjs.get(i).obj.y + platformObjs.get(i).obj.height;
-                vel.y = 0;
-                isGrounded = true;
-            }
-            if(touchingCeiling(platformObjs.get(i)))
-                vel.y = 0;
-        }
-        for(int i = 0; i < wallObjs.size(); i++){
-            if(touchingWall(wallObjs.get(i)))
-                obj.x = wallObjs.get(i).obj.x + wallObjs.get(i).obj.width;
-        }
-    }*/
-
-    /*public boolean inAttackRange(DynamicGameObject entity){
-        if((Math.abs(this.obj.x - entity.obj.x) < 0.3f) && (this.obj.y == entity.obj.y) ){
+    public boolean inAttackRange(float attackRange, DynamicGameObject entity){
+        if((Math.abs(this.getPosition().x  - entity.getPosition().x) < attackRange) && (Math.abs(this.getPosition().y  - entity.getPosition().y) < 2f)) {
             return true;
         }
         return false;
-    }*/
+    }
 
     public void takeDamage(){
         lifePoints--;

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.toastmakerr.game.Assets;
 import com.toastmakerr.game.AssetsManager;
 import com.toastmakerr.game.DesertMarauderMain;
+import com.toastmakerr.game.controllers.DynamicGameObject;
 import com.toastmakerr.game.controllers.GameObject;
 import com.toastmakerr.game.controllers.Player;
 import com.toastmakerr.game.controllers.Scorpion;
@@ -34,16 +35,14 @@ public class PlayerManager {
         tookDmg = false;
     }
 
-    public void update(ArrayList<GameObject> ground, ArrayList<GameObject> platform, ArrayList<GameObject> wall, ArrayList<ScorpionManager> scorpions){
+    public void update(ArrayList<ScorpionManager> scorpions, Camera camera){
+        ifOffScreen(camera);
         player.update();
-        //player.collisions(ground, platform, wall);
-        /*for(int i = 0; i < scorpions.size(); i++) {
-            if (Gdx.input.isKeyJustPressed(Input.Keys.ALT_LEFT) || player.getRectangle().overlaps(scorpions.get(i).getScorpion().getRectangle()) && !tookDmg) {
-                //player.pushPlayer();
-                player.takeDamage();
-                tookDmg = true;
+        for(int i = 0; i < scorpions.size(); i++) {
+            if(Player.getContactAmount() > 0 && Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                player.dealDamage(scorpions.get(i).getScorpion());
             }
-        }*/
+        }
         if(tookDmg) {
             invulnerabilityTimer += Gdx.graphics.getDeltaTime();
             if(invulnerabilityTimer >= 1) {
@@ -74,6 +73,15 @@ public class PlayerManager {
         }
     }
 
+    public void ifOffScreen(Camera camera){
+        if(player.getPosition().x < camera.position.x - DesertMarauderMain.WIDTH / 80f - 5){
+            if(!tookDmg) {
+                player.takeDamage();
+                tookDmg = true;
+            }
+
+        }
+    }
     public static boolean isDead(){
         return dead;
     }
@@ -82,4 +90,18 @@ public class PlayerManager {
         return player;
     }
 
+    public static void setTookDmg(boolean tof){
+        tookDmg = tof;
+    }
+
+    public void playerTakeDmg(){
+        player.playerTakeDmg();
+    }
+
+    public void pushPlayer(){
+        player.pushPlayer();
+    }
+    public static boolean getTookDmg(){
+        return tookDmg;
+    }
 }

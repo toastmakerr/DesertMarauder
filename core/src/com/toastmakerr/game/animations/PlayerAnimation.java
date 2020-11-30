@@ -90,8 +90,8 @@ public class PlayerAnimation {
         action = act;
     }
 
-    public boolean isAttackAction(){
-        if(action == PlayerAction.ATTACK_1 || action == PlayerAction.ATTACK_2 || action == PlayerAction.ATTACK_3)
+    public boolean actionsToFinish(){
+        if(action == PlayerAction.ATTACK_1 || action == PlayerAction.ATTACK_2 || action == PlayerAction.ATTACK_3 || action == PlayerAction.JUMP)
             return true;
         return false;
     }

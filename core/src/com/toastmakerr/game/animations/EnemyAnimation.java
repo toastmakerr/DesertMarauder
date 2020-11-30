@@ -14,24 +14,24 @@ public class EnemyAnimation {
     private TextureRegion[] spriteFrames;
     private TextureRegion currentFrame;
     private Animation<TextureRegion> animation;
-    private static EnemyAction action;
+    private EnemyAction action;
     private AssetsManager assetManager;
     private EnemyAction previousAction;
     private int rows;
     private int cols;
-    private static float stateTime;
-    private static boolean flip;
-    private static float frameDuration;
-    private static Vector2 animationPos;
-    private static Vector2 animationDimensions;
+    private float stateTime;
+    private boolean flip;
+    private float frameDuration;
+    private Vector2 animationPos;
+    private Vector2 animationDimensions;
 
-    public EnemyAnimation(AssetsManager assetsManager){
+    public EnemyAnimation(AssetsManager assetsManager, Vector2 startingPos){
         this.assetManager = assetsManager;
         flip = false;
         previousAction = null;
         action = EnemyAction.WALK;
         frameDuration = 0.25f;
-        setPos(new Vector2(35, 9.15f));
+        setPos(startingPos);
         setDimensions(new Vector2(0,0));
         setAnimation();
     }

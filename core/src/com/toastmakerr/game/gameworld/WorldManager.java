@@ -11,9 +11,7 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.toastmakerr.game.Assets;
 import com.toastmakerr.game.AssetsManager;
 import com.toastmakerr.game.controllers.GameObject;
@@ -22,28 +20,24 @@ import com.toastmakerr.game.controllers.Player;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Body;
 
-
-import java.util.ArrayList;
 import java.util.Random;
 
 public class WorldManager extends World {
     private PlayerManager playerManager;
-    private final static float GROUND_WIDTH = DesertMarauderMain.WIDTH / 40;
-    private final static float GROUND_HEIGHT = 1.5f;
-    private final static float PLATFORM_WIDTH = 5f;
-    private final static float PLATFORM_HEIGHT = 0.45f;
+    private final static float GROUND_WIDTH = 500;
+    private final static float GROUND_HEIGHT = 3f;
     private final static float LERP = 0.1f;
     private final static float SCROLLING_SPEED = 0.6f;
     private GameObject ground;
-    private GameObject platform, platform2, platform3, platform4, platform5, platform6, platform7, platform8;
-    private Texture BG1, BG1_2, BG2, BG2_2, PLATFORM;
+    private Texture BG1, BG1_2, BG2, BG2_2;
     private float bg1PosX, bg2PosX;
     private static final float STEP_TIME = 1f / 60f;
     private static final int VELOCITY_ITERATIONS = 6;
     private static final int POSITION_ITERATIONS = 2;
     private float accumulator = 0;
-    private static ArrayList<String> groundContactObjs;
-
+    private AssetsManager assetManager;
+    private final static int MAX_ENEMIES = 15;
+    private static int scorpionCount = 8;
     public static com.badlogic.gdx.physics.box2d.World world;
     Box2DDebugRenderer debugRenderer;
 
@@ -51,61 +45,38 @@ public class WorldManager extends World {
         Box2D.init();
         debugRenderer = new Box2DDebugRenderer();
         world = new com.badlogic.gdx.physics.box2d.World(new Vector2(0, -100), true);
-
+        this.assetManager = assetManager;
         playerManager = new PlayerManager(assetManager);
-        addScorpion(new ScorpionManager(assetManager));
 
         ground = new GameObject(new Vector2(0,0), new Vector2(GROUND_WIDTH, GROUND_HEIGHT), BodyDef.BodyType.KinematicBody, "Ground");
-        platform = new GameObject(new Vector2(20f,8f), new Vector2(PLATFORM_WIDTH, PLATFORM_HEIGHT), BodyDef.BodyType.KinematicBody, "Platform1");
-        platform2 = new GameObject(new Vector2(35f,8f), new Vector2(PLATFORM_WIDTH, PLATFORM_HEIGHT), BodyDef.BodyType.KinematicBody, "Platform2");
-        platform3 = new GameObject(new Vector2(55f,8f), new Vector2(PLATFORM_WIDTH, PLATFORM_HEIGHT), BodyDef.BodyType.KinematicBody, "Platform3");
-        platform4 = new GameObject(new Vector2(60f,15f), new Vector2(PLATFORM_WIDTH, PLATFORM_HEIGHT), BodyDef.BodyType.KinematicBody, "Platform4");
-        platform5 = new GameObject(new Vector2(70f,22f), new Vector2(PLATFORM_WIDTH, PLATFORM_HEIGHT), BodyDef.BodyType.KinematicBody, "Platform5");
-        platform6 = new GameObject(new Vector2(80f,8f), new Vector2(PLATFORM_WIDTH, PLATFORM_HEIGHT), BodyDef.BodyType.KinematicBody, "Platform6");
-        platform7 = new GameObject(new Vector2(85f,15f), new Vector2(PLATFORM_WIDTH, PLATFORM_HEIGHT), BodyDef.BodyType.KinematicBody, "Platform7");
-        platform8 = new GameObject(new Vector2(90f,22f), new Vector2(PLATFORM_WIDTH, PLATFORM_HEIGHT), BodyDef.BodyType.KinematicBody, "Platform8");
-
-        groundContactObjs = new ArrayList<>();
-        groundContactObjs.add("Ground");
-        groundContactObjs.add("Platform1");
-        groundContactObjs.add("Platform2");
-        groundContactObjs.add("Platform3");
-        groundContactObjs.add("Platform4");
-        groundContactObjs.add("Platform5");
-        groundContactObjs.add("Platform6");
-        groundContactObjs.add("Platform7");
-        groundContactObjs.add("Platform8");
 
         bg1PosX = 0;
         bg2PosX = 0;
 
+        this.addScorpion(new ScorpionManager(assetManager, new Vector2(22, 9.15f), false));
+        this.addScorpion(new ScorpionManager(assetManager, new Vector2(37, 9.15f), false));
+        this.addScorpion(new ScorpionManager(assetManager, new Vector2(57, 9.15f), false));
+        this.addScorpion(new ScorpionManager(assetManager, new Vector2(63, 16.15f), false));
+        this.addScorpion(new ScorpionManager(assetManager, new Vector2(73, 23.15f), false));
+        this.addScorpion(new ScorpionManager(assetManager, new Vector2(83, 9.15f), false));
+        this.addScorpion(new ScorpionManager(assetManager, new Vector2(88, 16.15f), false));
+        this.addScorpion(new ScorpionManager(assetManager, new Vector2(93, 23.15f), false));
+
         this.addGroundObj(ground);
-        this.addPlatformObj(platform);
-        this.addPlatformObj(platform2);
-        this.addPlatformObj(platform3);
-        this.addPlatformObj(platform4);
-        this.addPlatformObj(platform5);
-        this.addPlatformObj(platform6);
-        this.addPlatformObj(platform7);
-        this.addPlatformObj(platform8);
+        this.addPlatformObj(new PlatformManager(assetManager, new Vector2(20,8)));
+        this.addPlatformObj(new PlatformManager(assetManager, new Vector2(35,8)));
+        this.addPlatformObj(new PlatformManager(assetManager, new Vector2(55,8)));
+        this.addPlatformObj(new PlatformManager(assetManager, new Vector2(60,15)));
+        this.addPlatformObj(new PlatformManager(assetManager, new Vector2(70,22)));
+        this.addPlatformObj(new PlatformManager(assetManager, new Vector2(80,8)));
+        this.addPlatformObj(new PlatformManager(assetManager, new Vector2(85,15)));
+        this.addPlatformObj(new PlatformManager(assetManager, new Vector2(90,22)));
+
 
         BG1 = assetManager.am.get(Assets.DESERT_BG_1);
         BG1_2 = assetManager.am.get(Assets.DESERT_BG_1);
         BG2 = assetManager.am.get(Assets.DESERT_BG_2);
         BG2_2 = assetManager.am.get(Assets.DESERT_BG_2);
-        PLATFORM = assetManager.am.get(Assets.DESERT_PLATFORM);
-
-        BodyDef groundBodyDef = new BodyDef();
-        groundBodyDef.position.set(new Vector2(0, 0f));
-        Body groundBody = world.createBody(groundBodyDef);
-        PolygonShape groundBox = new PolygonShape();
-        groundBox.setAsBox(500, 3f);
-
-        FixtureDef fixture = new FixtureDef();
-        fixture.shape = groundBox;
-        groundBody.createFixture(fixture);
-        createCollisionListener();
-        groundBox.dispose();
     }
 
     private void stepWorld() {
@@ -128,8 +99,18 @@ public class WorldManager extends World {
                 Body b = contact.getFixtureB().getBody();
                 a.getUserData();
                 if(a.getUserData().equals("Player")){
-                    //playerManager.getPlayer().setGrounded(true);
                     Player.incrementContacts();
+                    if(a.getUserData().equals("Player") && b.getUserData().equals("Scorpion")){
+                        playerManager.playerTakeDmg();
+                        playerManager.pushPlayer();
+                        PlayerManager.setTookDmg(true);
+                    }
+                }
+                for(int i = 0; i < getPlatformObj().size(); i++){
+                    String temp = "Platform" + i;
+                    if(a.getUserData().equals("Scorpion") && b.getUserData().equals(temp)){
+                        getPlatformObj().get(i).setHasEnemy(true);
+                    }
                 }
             }
 
@@ -141,6 +122,12 @@ public class WorldManager extends World {
                 if (a.getUserData().equals("Player")) {
                     //playerManager.getPlayer().setGrounded(false);
                     Player.decrementContacts();
+                }
+                for(int i = 0; i < getPlatformObj().size(); i++){
+                    String temp = "Platform" + i;
+                    if(a.getUserData().equals("Scorpion") && b.getUserData().equals(temp)){
+                        getPlatformObj().get(i).setHasEnemy(false);
+                    }
                 }
             }
 
@@ -178,24 +165,20 @@ public class WorldManager extends World {
         batch.draw(BG2_2, bg2PosX + DesertMarauderMain.WIDTH / 40f,0, DesertMarauderMain.WIDTH / 40f,DesertMarauderMain.HEIGHT / 40f);
         playerManager.draw(batch, camera);
         for(ScorpionManager scorpionManager : getScorpionsObj())
-            scorpionManager.draw(batch, camera);
-        batch.draw(PLATFORM, platform.getPosition().x - PLATFORM_WIDTH, platform.getPosition().y - PLATFORM_HEIGHT, DesertMarauderMain.WIDTH / 40f,DesertMarauderMain.HEIGHT / 40f);
-        batch.draw(PLATFORM, platform2.getPosition().x - PLATFORM_WIDTH, platform2.getPosition().y - PLATFORM_HEIGHT, DesertMarauderMain.WIDTH / 40f,DesertMarauderMain.HEIGHT / 40f);
-        batch.draw(PLATFORM, platform3.getPosition().x - PLATFORM_WIDTH, platform3.getPosition().y - PLATFORM_HEIGHT, DesertMarauderMain.WIDTH / 40f,DesertMarauderMain.HEIGHT / 40f);
-        batch.draw(PLATFORM, platform4.getPosition().x - PLATFORM_WIDTH, platform4.getPosition().y - PLATFORM_HEIGHT, DesertMarauderMain.WIDTH / 40f,DesertMarauderMain.HEIGHT / 40f);
-        batch.draw(PLATFORM, platform5.getPosition().x - PLATFORM_WIDTH, platform5.getPosition().y - PLATFORM_HEIGHT, DesertMarauderMain.WIDTH / 40f,DesertMarauderMain.HEIGHT / 40f);
-        batch.draw(PLATFORM, platform6.getPosition().x - PLATFORM_WIDTH, platform6.getPosition().y - PLATFORM_HEIGHT, DesertMarauderMain.WIDTH / 40f,DesertMarauderMain.HEIGHT / 40f);
-        batch.draw(PLATFORM, platform7.getPosition().x - PLATFORM_WIDTH, platform7.getPosition().y - PLATFORM_HEIGHT, DesertMarauderMain.WIDTH / 40f,DesertMarauderMain.HEIGHT / 40f);
-        batch.draw(PLATFORM, platform8.getPosition().x - PLATFORM_WIDTH, platform8.getPosition().y - PLATFORM_HEIGHT, DesertMarauderMain.WIDTH / 40f,DesertMarauderMain.HEIGHT / 40f);
+            scorpionManager.draw(batch);
+        for(PlatformManager platformManager : getPlatformObj())
+            platformManager.draw(batch);
         batch.end();
     }
 
     public void update(Camera camera){
         stepWorld();
-        playerManager.update(getGroundObj(), getPlatformObj(), getWallObj(), getScorpionsObj());
+        spawnNewEnemy(camera);
+        destroyDeadScorpion();
+        playerManager.update(getScorpionsObj(), camera);
         if( Player.getMove() ) {
             for (ScorpionManager scorpionManager : getScorpionsObj())
-                scorpionManager.update(playerManager.getPlayer(), getGroundObj(), getPlatformObj(), getWallObj());
+                scorpionManager.update(playerManager.getPlayer(), camera);
             screenScroller(camera);
             platformHandler(camera);
         }
@@ -216,66 +199,55 @@ public class WorldManager extends World {
         }
     }
 
-    public void platformHandler(Camera camera){
-        Random randX = new Random();
-        randX.nextFloat();
-        Random randY = new Random();
-        float x = 5 * (randX.nextInt(2) + 1);
-        float y = 7 * (randY.nextInt(3) + 1) + 1;
-        for(int i = 0; i < getPlatformObj().size(); i++) {
-            System.out.println(getPlatformObj().get(0).getPosition());
-            System.out.println(camera.position.x - DesertMarauderMain.WIDTH / 80);
-            if(getPlatformObj().get(i).getPosition().x + PLATFORM_WIDTH < camera.position.x - DesertMarauderMain.WIDTH / 80){
-                if(i > 0){
-                    if(getPlatformObj().get(i-1).getPosition().y == 8){
-                        getRandomYWithExclusion(22);
-                    }
-                    else{
-                        getRandomYWithExclusion(-1);
-                    }
-                    if(getPlatformObj().get(i-1).getPosition().y < y){
-                        getRandomXWithExclusion(0);
-                    }
-                    else if(getPlatformObj().get(i-1).getPosition().y == y){
-                        x = 10;
-                    }
-                    else{
-                        getRandomXWithExclusion(-1);
-                    }
-                }
-                else if(i == 0){
-                    if(getPlatformObj().get(getPlatformObj().size() - 1).getPosition().y == 8){
-                        getRandomYWithExclusion(22);
-                    }
-                    else{
-                        getRandomYWithExclusion(-1);
-                    }
-                    if(getPlatformObj().get(getPlatformObj().size() - 1).getPosition().y < getPlatformObj().get(i).getPosition().y){
-                        getRandomXWithExclusion(0);
-                    }
-                    else{
-                        getRandomXWithExclusion(-1);
-                    }
-                }
-                getPlatformObj().get(i).setPosition(x + camera.position.x + DesertMarauderMain.WIDTH / 80 + 10, y);
+    public void platformHandler(Camera camera) {
+        for (int i = 0; i < getPlatformObj().size(); i++) {
+            if (i > 0) {
+                getPlatformObj().get(i).updatePlatform(camera, getPlatformObj().get(i - 1));
+            } else if (i == 0) {
+                getPlatformObj().get(i).updatePlatform(camera, getPlatformObj().get(getPlatformObj().size() - 1));
             }
         }
     }
 
-    public int getRandomYWithExclusion(int exclusion){
-        Random randY = new Random();
-        int y = 7 * (randY.nextInt(3) + 1) + 1;
-        while(y == exclusion){
-            y = 7 * (randY.nextInt(3) + 1) + 1;
+    public int nextPlatformToRespawnEnemy(Camera camera){
+        for(int i = 0; i < getPlatformObj().size(); i++){
+            if(!getPlatformObj().get(i).getHasEnemy() && getPlatformObj().get(i).getPlatform().getPosition().x > camera.position.x + DesertMarauderMain.WIDTH / 80){
+                return i;
+            }
         }
-        return y;
+        return -1;
     }
 
-    public int getRandomXWithExclusion(int exclusion){
-        Random randX = new Random();
-        int x = 5 * (randX.nextInt(3));
-        while(x == exclusion){
-            x = 5 * (randX.nextInt(3));        }
-        return x;
+    public void spawnNewEnemy(Camera camera){
+        if(scorpionCount <= MAX_ENEMIES) {
+            Random randX = new Random();
+            int x = 2 * (randX.nextInt(10));
+            for (int i = 0; i < getScorpionsObj().size(); i++) {
+                int nextPlatform = nextPlatformToRespawnEnemy(camera);
+                if (nextPlatform != -1) {
+                    Vector2 platformPos = getPlatformObj().get(nextPlatform).getPlatform().getPosition();
+                    getPlatformObj().get(nextPlatform).setHasEnemy(true);
+                    getScorpionsObj().add(new ScorpionManager(assetManager, new Vector2(platformPos.x + 2, platformPos.y + 1.15f), false));
+                    scorpionCount++;
+                } /*else {
+                    getScorpionsObj().add(new ScorpionManager(assetManager, new Vector2(camera.position.x + DesertMarauderMain.WIDTH / 80 + x, 5), true));
+                }*/
+            }
+        }
+    }
+
+    public void destroyDeadScorpion(){
+        for(int i = 0; i < getScorpionsObj().size(); i++) {
+            if (getScorpionsObj().get(i).getScorpion().getDead()) {
+                world.destroyBody(getScorpionsObj().get(i).getScorpion().getBody());
+                getScorpionsObj().remove(i);
+                scorpionCount--;
+            }
+        }
+    }
+
+
+    public static int getScorpionCount(){
+        return scorpionCount;
     }
 }
