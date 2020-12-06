@@ -2,7 +2,7 @@
 <div>
     <img width="400px" height="250px hspace="10" src="images/desertmaraudertitle.png">
     <img width="400px" height="250px" hspace="10" src="images/desertmaruadersh1.png">
-    <img width="400px" height="250px" hspace="10" src="images/desertmaruadersh2.png">
+    <img width="400px" height="250px" hspace="0" src="images/desertmaruadersh2.png">
     <img width="400px" height="250px" hspace="10" src="images/desertmaruaderendsc.png">
 </div>
 
