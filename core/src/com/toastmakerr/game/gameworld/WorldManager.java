@@ -220,18 +220,20 @@ public class WorldManager extends World {
 
     public void spawnNewEnemy(Camera camera){
         if(scorpionCount <= MAX_ENEMIES) {
+            //System.out.println(scorpionCount);
             Random randX = new Random();
             int x = 2 * (randX.nextInt(10));
             for (int i = 0; i < getScorpionsObj().size(); i++) {
                 int nextPlatform = nextPlatformToRespawnEnemy(camera);
+                System.out.println(nextPlatform);
                 if (nextPlatform != -1) {
                     Vector2 platformPos = getPlatformObj().get(nextPlatform).getPlatform().getPosition();
                     getPlatformObj().get(nextPlatform).setHasEnemy(true);
                     getScorpionsObj().add(new ScorpionManager(assetManager, new Vector2(platformPos.x + 2, platformPos.y + 1.15f), false));
                     scorpionCount++;
-                } /*else {
+                } else if(nextPlatform > 0 && nextPlatform < getPlatformObj().size()){
                     getScorpionsObj().add(new ScorpionManager(assetManager, new Vector2(camera.position.x + DesertMarauderMain.WIDTH / 80 + x, 5), true));
-                }*/
+                }
             }
         }
     }
