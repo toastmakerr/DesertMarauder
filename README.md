@@ -6,7 +6,7 @@
     <img width="400px" height="250px" hspace="10" src="images/desertmaruaderendsc.png">
 </div>
 
-##Asset License
+## Asset License
 Assets are modified or original copies provided by CraftPix.net. The license can be viewed [here.](https://craftpix.net/file-licenses/)
 
 ## Downloads
