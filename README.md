@@ -1,4 +1,6 @@
 # Desert Maruader
+This is an infinitely scrolling platformer where the goal is to go as far as possible and live against the enemies.
+This game is a work in progress and will be updated over time.
 <div>
     <img width="400px" height="250px hspace="10" src="images/desertmaraudertitle.png">
     <img width="400px" height="250px" hspace="10" src="images/desertmaruadersh1.png">
